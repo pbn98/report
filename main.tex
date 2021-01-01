@@ -1,3 +1,5 @@
+% HEADERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt,a4paper]{report}
 %\usepackage[italian]{babel}
 \usepackage{graphicx}
@@ -58,14 +60,20 @@
     showtabs=false,
     tabsize=2
 }
+
 \graphicspath{ {images/} }
 \title{Orbital Mechanics Project}
 
 \author{Marwan Alkady\\ Pedro Bossi N\'{u}\~{n}ez \\\ Demartini Davide\\ Iafrate Davide\\}
 \date{\today}
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ACTUAL DOCUMENT
+
 \begin{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% FRONT COVER AND TABLE OF CONTENTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{titlepage}
 	\clearpage\thispagestyle{empty}
 	\centering
@@ -84,8 +92,10 @@ Master of Science in\\ Space Engineering \\
 	{\Huge{Orbital Mechanics Project}} \\
 	%\vspace{1cm}
 	%{\large \textbf{xxxxx} \par}
-	\vspace{4cm}
-	{\LARGE Marwan Alkady\\ Pedro Bossi N\'{u}\~{n}ez \\ Davide Demartini\\ Davide Iafrate\\ \par}
+	\vspace{3cm}
+	{\huge Group 33\\}
+	\vspace{0.4cm}
+	{\LARGE Marwan Alkady 88888\\ Pedro Bossi N\'{u}\~{n}ez 887651\\ Davide Demartini 88888\\ Davide Iafrate 88888\\ \par}
 
 %	Set the date
 \vspace{1cm}
@@ -94,71 +104,87 @@ Master of Science in\\ Space Engineering \\
 	\pagebreak
 
 \end{titlepage}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\frontmatter % First part of the book
-\maketitle
-%
-\tableofcontents
-%
-%\mainmatter % Second part of the book
 
+%\maketitle
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEXT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{Assignment 1: Interplanetary Explorer Mission}
+
 \chapter{Mission requirements}
 % table with:
 % Departure Planet
 % flyby planet
 % arrival planet
 % minimum departure and maximum arrival dates
+
 \chapter{Mission analysis outputs}
+
 \section{Design process}
+
 \subsection{Initial choice for the time windows}
+
 \subsection{Additional constraints considered}
+
 \subsection{Transfer options exploration, analysis and comparison}
+
 \subsection{Selection of the final solution}
 % with plots and stuff
+
 \section{Final solution}
+
 \subsection{Heliocentric trajectory}
 % Departure, flyby and arrival times.
 % Plot of the heliocentric trajectory,together with the orbits of
 % the three planets and their positions at departure, flyby and arrival.
+
 \subsection{Powered gravity assist}
 % Altitude of the closest approach.
 % Time duration of the flyby (considering a finite SOI).
 % Compare total flyby \Delta v with the cost of the manoeuvre \Delta v_{ga}
 % Plot of the incoming and outcoming hyperbola arcs
+
 \subsection{Cost of the mission}
 %\Delta v_{dep}, \Delta v_{ga}, \Delta v_{arr}.
 
-
 \part{Assignment 2: Planetary Explorer Mission}
+
 \chapter{Mission requirements}
 % table with:
 % Central Planet
 % Nominal operational orbit
 % Orbit perturbations to be considered
 % Ratio of satellite and Earth revolutions for the repeating ground track
+
 \chapter{Mission analysis outputs}
+
 \section{Nominal orbit}
 %initial values and main characteristics
+
 \section{Ground track}
 % GT considering only J2 as perturbation and GT considering the assigned perturbation
+
 \section{Orbit Propagation}
-\subsection{In Cartesian coordinates}
-\subsection{Keplerian elements through Gauss’ planetary equations}
+% In Cartesian coordinates and Keplerian elements through Gauss’ planetary equations,
+%comparison of the propagation methods in terms of accuracy, computational time etc.
+
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
-\subsection{comparison of the propagation methods}
-%in terms of accuracy, computational time etc.
+
 \section{Orbit evolution representation}
+
 \section{HF filtering}
 %Maybe we can do it when we plot the history of the Keplerian elements
+
 \section{Comparison with real data}
+
 \subsection{Satellite selection}
+
 \subsection{Comparison with our model}
+
 \part{Bibliography}
 
-%
-%\bibliographystyle{plain}
-%\bibliography{mybib}
-%\printindex
 \end{document}
