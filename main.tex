@@ -7,11 +7,31 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{titlesec}
+
+\titleformat{\part}[display]
+  {\Huge\bfseries}
+  {}
+  {0pt}
+  {}
+
+\titleformat{\chapter}[display]
+ {\huge\bfseries}
+ {}
+ {0pt}
+ {}
+
+ \titleformat{\section}[display]
+ {\Large\bfseries}
+ {}
+ {0pt}
+ {\thesection\  \ }
+
 \def\UrlBreaks{\do\/\do-}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
-    filecolor=magenta,      
+    filecolor=magenta,
     urlcolor=cyan,
 }
 %\usepackage{url}
@@ -21,21 +41,21 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{backcolour},
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
-    showtabs=false,                  
+    showtabs=false,
     tabsize=2
 }
 \graphicspath{ {images/} }
@@ -52,12 +72,12 @@
 
 %	Titles
 %	Information about the University
-    
+
    \centering \includegraphics[scale=0.7]{logo}
-    
+
    \vspace{0.5cm}
-	
-	{\Huge\textbf{Politecnico di Milano} \\ 
+
+	{\Huge\textbf{Politecnico di Milano} \\
 Master of Science in\\ Space Engineering \\
 		 \par}
 		\vspace{3cm}
@@ -70,7 +90,7 @@ Master of Science in\\ Space Engineering \\
 %	Set the date
 \vspace{1cm}
 	{\Large A.Y. 2020-2021 \par}
-	
+
 	\pagebreak
 
 \end{titlepage}
@@ -78,18 +98,64 @@ Master of Science in\\ Space Engineering \\
 %\frontmatter % First part of the book
 \maketitle
 %
-\tableofcontents 
+\tableofcontents
 %
 %\mainmatter % Second part of the book
-\chapter{Assignment 1}
-\section{Stuff}
 
-\chapter{Assignment 2}
-\section{Stuff}
+\part{Assignment 1: Interplanetary Explorer Mission}
+\chapter{Mission requirements}
+% table with:
+% Departure Planet
+% flyby planet
+% arrival planet
+% minimum departure and maximum arrival dates
+\chapter{Mission analysis outputs}
+\section{Design process}
+\subsection{Initial choice for the time windows}
+\subsection{Additional constraints considered}
+\subsection{Transfer options exploration, analysis and comparison}
+\subsection{Selection of the final solution}
+% with plots and stuff
+\section{Final solution}
+\subsection{Heliocentric trajectory}
+% Departure, flyby and arrival times.
+% Plot of the heliocentric trajectory,together with the orbits of
+% the three planets and their positions at departure, flyby and arrival.
+\subsection{Powered gravity assist}
+% Altitude of the closest approach.
+% Time duration of the flyby (considering a finite SOI).
+% Compare total flyby \Delta v with the cost of the manoeuvre \Delta v_{ga}
+% Plot of the incoming and outcoming hyperbola arcs
+\subsection{Cost of the mission}
+%\Delta v_{dep}, \Delta v_{ga}, \Delta v_{arr}.
 
-\appendix
-\chapter{Appendix A}
-\chapter{Bibliography}
+
+\part{Assignment 2: Planetary Explorer Mission}
+\chapter{Mission requirements}
+% table with:
+% Central Planet
+% Nominal operational orbit
+% Orbit perturbations to be considered
+% Ratio of satellite and Earth revolutions for the repeating ground track
+\chapter{Mission analysis outputs}
+\section{Nominal orbit}
+%initial values and main characteristics
+\section{Ground track}
+% GT considering only J2 as perturbation and GT considering the assigned perturbation
+\section{Orbit Propagation}
+\subsection{In Cartesian coordinates}
+\subsection{Keplerian elements through Gauss’ planetary equations}
+\section{History of the Keplerian elements}
+% plot the history of every keplerian element
+\subsection{comparison of the propagation methods}
+%in terms of accuracy, computational time etc.
+\section{Orbit evolution representation}
+\section{HF filtering}
+%Maybe we can do it when we plot the history of the Keplerian elements
+\section{Comparison with real data}
+\subsection{Satellite selection}
+\subsection{Comparison with our model}
+\part{Bibliography}
 
 %
 %\bibliographystyle{plain}
