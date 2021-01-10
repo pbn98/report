@@ -10,6 +10,13 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{titlesec}
+\usepackage{nomencl}
+\makenomenclature
+
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\let\oldhat\hat
+\renewcommand{\hat}[1]{\oldhat{\mathbf{#1}}}
 
 \titleformat{\part}[display]
   {\Huge\bfseries}
@@ -106,7 +113,14 @@ Master of Science in\\ Space Engineering \\
 \end{titlepage}
 
 %\maketitle
+\nomenclature{$a$}{semi-major axis}
+\nomenclature{$e$}{eccentricity}
+\nomenclature{$i$}{inclination}
+\nomenclature{\omega}{periapsis anomaly}
+\nomenclature{\Omega}{Right ascension of the ascending node}
+\nomenclature{$f$}{true anomaly}
 
+\printnomenclature
 \tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -167,24 +181,68 @@ Master of Science in\\ Space Engineering \\
 \section{Ground track}
 % GT considering only J2 as perturbation and GT considering the assigned perturbation
 
+\section{Orbit Perturbations}
+In our model we included perturbations due to two effects:
+\begin{itemize}
+    \item \textbf{Second Zonal Harmonic \emph{J2}} \par Models the Earth Oblateness using the spherical geopotentials model, truncated to the second term.
+    \item \textbf{Solar Radiation Pressure \emph{SRP}} \par A force given by the impact of momentum-carrying photons on the surfaces of the spacecraft. For this perturbation we have written a function that, based on the initial date 
+\end{itemize}
+
+These forces give an acceleration to the spacecraft so that the total acceleration it perceives in orbit is
+\begin{equation}
+    \vec{a} = - \frac{\mu_{\oplus}}{r^3}\vec{r} + \vec{a}_{SRP} + \vec{a}_{J2}
+\end{equation}
+
 \section{Orbit Propagation}
 % In Cartesian coordinates and Keplerian elements through Gauss’ planetary equations,
 %comparison of the propagation methods in terms of accuracy, computational time etc.
+To propagate the orbit we used two different methods:
+\begin{itemize}
+    \item \textbf{Gauss Planetary Equations}
+    \par \includegraphics[h,width=10cm]{RSW_Gauss_eqs.png}
+    \par
+    The reference frame for this equations is the RSW frame so $a_r, a_s, a_w$ are respectively the components radial, transversal and out-of-plane. \cite{RSW_Curtis} \cite{RSW_Vallado} \cite{RSW_Battin}
+    
+    \item \textbf{Numeric integration of cartesian equations}
+    This method consists in directly integrating the Cartesian equations of motion
+    \begin{equation}
+        \vec{\ddot{r}} = - \frac{\mu_{\oplus}}{r^3}\vec{r} + \sum{a_{p}}
+    \end{equation}
+    
+\end{itemize}
+There is a marked difference in the computational time between the two methods as the Gaussian elements propagation for a timespan of $50 T_{orbit}$ has a computation time $t_{GAUSS} = 5.4660*10^{-4} s$ that is much faster than the Cartesian $t_{CART} = 62.2 s$ one
 
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
 
 \section{Orbit evolution representation}
+\includegraphics[semi-major axis evolution]{a.png}
+\includegraphics[eccentricity evolution]{e.png}
 
 \section{HF filtering}
 %Maybe we can do it when we plot the history of the Keplerian elements
-
+For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$
 \section{Comparison with real data}
 
 \subsection{Satellite selection}
 
 \subsection{Comparison with our model}
 
-\part{Bibliography}
+\begin{thebibliography}{9}
+\bibitem{RSW_Curtis} 
+Curtis,H.D. 
+\textit{Orbital mechanics for engineering students}. 
+Butterworth-Heinemann , 2014. Chapter 12
+
+\bibitem{RSW_Vallado} 
+Vallado, D.A.
+\textit{Fundamental of Astrodynamics and Applications, 4th
+Ed}, Microcosm Press, 2013. Chapters 8 and 9
+
+\bibitem{RSW_Battin} 
+Battin, R,
+\textit{An Introduction to the Mathematics and Methods of
+Astrodynamics}, AIAA Education Series, 1999. Chapter 10
+\end{thebibliography}
 
 \end{document}
