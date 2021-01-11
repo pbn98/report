@@ -12,7 +12,9 @@
 \usepackage{titlesec}
 \usepackage{nomencl}
 \usepackage{amsmath}
+
 \usepackage{wasysym}
+
 \makenomenclature
 
 
@@ -241,6 +243,7 @@ There are numerical error introducing differences between the two methods, but t
 \begin{figure}[]
     \centering
     \includegraphics[width=\textwidth]{a.png}
+
     \caption{Evolution of the semi-major axis}
 \end{figure}
 
@@ -261,7 +264,9 @@ There are numerical error introducing differences between the two methods, but t
 \section{HF filtering}
 %Maybe we can do it when we plot the history of the Keplerian elements
 For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
+
 \par We can see in the \emph{secular evolution} that there is a periodic increase and decrease in eccentricty due to the acceleration from the SRP being always in the same direction and the secular evolution has an oscillatory behaviour caused by Earth's revolution around the Sun.
+
 
 \section{Comparison with real data}
 
