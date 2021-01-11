@@ -12,9 +12,9 @@
 \usepackage{titlesec}
 \usepackage{nomencl}
 \usepackage{amsmath}
-
+\usepackage{epsfig}
 \usepackage{wasysym}
-
+%\psdraft
 \makenomenclature
 
 
@@ -240,24 +240,24 @@ There are numerical error introducing differences between the two methods, but t
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
 %% UPDATE THE PLOTS WITH 1YEAR ONES
-\begin{figure}[]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{a.png}
-
     \caption{Evolution of the semi-major axis}
-\end{figure}
+    \end{figure}
 
-\begin{figure}[]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{e.png}
     \caption{Evolution of the eccentricity}
-\end{figure}
+    \end{figure}
 
-\begin{figure}[]
 
-    \includegraphics[width=1.3\textwidth,height=1.3\textheight,keepaspectratio]{400_T.eps}
+\begin{figure}[H]
+    \centering
+    \epsfig{file= 400_T.eps, width=\textwidth}
     \caption{Evolution of keplerian elements}
-\end{figure}
+    \end{figure}
 
 \section{Orbit evolution representation}
 
