@@ -11,6 +11,7 @@
 \usepackage{float}
 \usepackage{titlesec}
 \usepackage{nomencl}
+\usepackage{amsmath}
 \makenomenclature
 
 
@@ -199,9 +200,19 @@ These forces give an acceleration to the spacecraft so that the total accelerati
 To propagate the orbit we used two different methods:
 \begin{itemize}
     \item \textbf{Gauss Planetary Equations}
-    \par \includegraphics[h,width=10cm]{RSW_Gauss_eqs.png}
     \par
-    The reference frame for this equations is the RSW frame so $a_r, a_s, a_w$ are respectively the components radial, transversal and out-of-plane. \cite{RSW_Curtis} \cite{RSW_Vallado} \cite{RSW_Battin}
+    \begin{align*}
+        \frac{da}{dt}&=\frac{2a^2}{h}\Big(e\sin f \: a_r +\frac{p}{r}a_s\Big)\\[1]
+        \frac{de}{dt}&=\frac{1}{h}\Big(p\sin(f) \: a_r+ \Big( (p+r)\cos f +re \Big) a_s\Big)\\[1]
+        \frac{di}{dt} &= \frac{r\cos(f+\omega)}{h}a_w\\[1]
+        \frac{d\Omega}{dt}&=\frac{r\sin (f+\omega) }{h \sin i}a_w\\[1]
+        \frac{d\omega}{dt}&=\frac{1}{he} \Big( \cos f \; a_r + (p+r)\sin f \; a_s \Big ) - \frac{r\sin(f+\omega)\cos i}{h\sin i} a_w\\[1]
+        \frac{df}{dt} &= \frac{h}{r^2} + \frac{1}{eh} \Big(p \cos f \; a_r - (p+r)\sin f \; a_s 
+    \end{align*}
+
+    \par
+    We numerically integrate these equations with the ode113 solver, by using them to set the derivatives of the state.
+    The reference frame for this equations is the RSW frame so $a_r, a_s, a_w$ are respectively the  radial, transversal and out-of-plane components. \cite{RSW_Curtis} \cite{RSW_Vallado} \cite{RSW_Battin}
     
     \item \textbf{Numeric integration of cartesian equations}
     This method consists in directly integrating the Cartesian equations of motion
@@ -214,14 +225,26 @@ There is a marked difference in the computational time between the two methods a
 
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
+%% UPDATE THE PLOTS WITH 1YEAR ONES
+\begin{figure}[]
+    \centering
+    \includegraphics[semi-major axis evolution]{a.png}
+    \caption{Evolution of the semi-major axis}
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \includegraphics[eccentricity evolution]{e.png}
+    \caption{Evolution of the eccentricity}
+\end{figure}
 
 \section{Orbit evolution representation}
-\includegraphics[semi-major axis evolution]{a.png}
-\includegraphics[eccentricity evolution]{e.png}
 
 \section{HF filtering}
 %Maybe we can do it when we plot the history of the Keplerian elements
-For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$
+For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
+\par We can see in the secular evolution that there is an increase in eccentricty due to the acceleration from the SRP being always in the same direction and the secular evolution has an oscillatory behaviour caused by Earth's revolution around the Sun. 
+
 \section{Comparison with real data}
 
 \subsection{Satellite selection}
