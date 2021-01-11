@@ -12,6 +12,7 @@
 \usepackage{titlesec}
 \usepackage{nomencl}
 \usepackage{amsmath}
+\usepackage{wasysym}
 \makenomenclature
 
 
@@ -186,7 +187,10 @@ Master of Science in\\ Space Engineering \\
 In our model we included perturbations due to two effects:
 \begin{itemize}
     \item \textbf{Second Zonal Harmonic \emph{J2}} \par Models the Earth Oblateness using the spherical geopotentials model, truncated to the second term.
-    \item \textbf{Solar Radiation Pressure \emph{SRP}} \par A force given by the impact of momentum-carrying photons on the surfaces of the spacecraft. For this perturbation we have written a function that, based on the initial date 
+    \item \textbf{Solar Radiation Pressure \emph{SRP}} \par A force given by the impact of momentum-carrying photons on the surfaces of the spacecraft. For this perturbation we have written a function that, based on the initial date gets the position vector of the Earth from the ephemerides function and uses that together with the position vector of the spacecraft with respect to the Earth to calculate the direction of the disturbing acceleration. A simple algorithm for the eclipse condition found in \cite{SRP_Curtis} has been implemented.
+    \begin{equation}
+        \vec{a_{SRP}} = -P_{SR@1AU}\frac{AU^2}{||\vec{r}_{sc-Sun}||^3}c_R\frac{A_{Sun}}{m}\vec{r}_{sc-Sun}
+    \end{equation}
 \end{itemize}
 
 These forces give an acceleration to the spacecraft so that the total acceleration it perceives in orbit is
@@ -195,6 +199,7 @@ These forces give an acceleration to the spacecraft so that the total accelerati
 \end{equation}
 
 \section{Orbit Propagation}
+\subsection{Methods}
 % In Cartesian coordinates and Keplerian elements through Gauss’ planetary equations,
 %comparison of the propagation methods in terms of accuracy, computational time etc.
 To propagate the orbit we used two different methods:
@@ -221,21 +226,34 @@ To propagate the orbit we used two different methods:
     \end{equation}
     
 \end{itemize}
-There is a marked difference in the computational time between the two methods as the Gaussian elements propagation for a timespan of $50 T_{orbit}$ has a computation time $t_{GAUSS} = 5.4660*10^{-4} s$ that is much faster than the Cartesian $t_{CART} = 62.2 s$ one
+
+\subsection{Comparison}
+\par
+There is a marked difference in the computational time between the two methods as the Gaussian elements propagation for a timespan of $50\ T_{orbit}$ has a computation time $t_{GAUSS} = 5.4660*10^{-4} s$ that is much faster than the Cartesian $t_{CART} = 62.2 s$ one.
+
+\par
+There are numerical error introducing differences between the two methods, but the error only grows up to an order of $10^{-5}$ for a propagation of 200 periods.
+
 
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
 %% UPDATE THE PLOTS WITH 1YEAR ONES
 \begin{figure}[]
     \centering
-    \includegraphics[semi-major axis evolution]{a.png}
+    \includegraphics[width=\textwidth]{a.png}
     \caption{Evolution of the semi-major axis}
 \end{figure}
 
 \begin{figure}[]
     \centering
-    \includegraphics[eccentricity evolution]{e.png}
+    \includegraphics[width=\textwidth]{e.png}
     \caption{Evolution of the eccentricity}
+\end{figure}
+
+\begin{figure}[]
+
+    \includegraphics[width=1.3\textwidth,height=1.3\textheight,keepaspectratio]{400_T.eps}
+    \caption{Evolution of keplerian elements}
 \end{figure}
 
 \section{Orbit evolution representation}
@@ -243,7 +261,7 @@ There is a marked difference in the computational time between the two methods a
 \section{HF filtering}
 %Maybe we can do it when we plot the history of the Keplerian elements
 For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
-\par We can see in the secular evolution that there is an increase in eccentricty due to the acceleration from the SRP being always in the same direction and the secular evolution has an oscillatory behaviour caused by Earth's revolution around the Sun. 
+\par We can see in the \emph{secular evolution} that there is a periodic increase and decrease in eccentricty due to the acceleration from the SRP being always in the same direction and the secular evolution has an oscillatory behaviour caused by Earth's revolution around the Sun.
 
 \section{Comparison with real data}
 
@@ -266,6 +284,12 @@ Ed}, Microcosm Press, 2013. Chapters 8 and 9
 Battin, R,
 \textit{An Introduction to the Mathematics and Methods of
 Astrodynamics}, AIAA Education Series, 1999. Chapter 10
+
+\bibitem{SRP_Curtis} 
+Curtis,H.D. 
+\textit{Orbital mechanics for engineering students}. 
+Butterworth-Heinemann , 2019. Chapter 10.9
+
 \end{thebibliography}
 
 \end{document}
