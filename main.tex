@@ -14,7 +14,7 @@
 \usepackage{amsmath}
 \usepackage{epsfig}
 \usepackage{wasysym}
-%\psdraft
+\usepackage{gensymb}
 \makenomenclature
 
 
@@ -233,6 +233,12 @@ To propagate the orbit we used two different methods:
 \par
 There is a marked difference in the computational time between the two methods as the Gaussian elements propagation for a timespan of $50\ T_{orbit}$ has a computation time $t_{GAUSS} = 5.4660*10^{-4} s$ that is much faster than the Cartesian $t_{CART} = 62.2 s$ one.
 
+\begin{figure}[]
+    \centering
+    \includegraphics[width=1.5\textwidth]{400_T_error.eps}
+    \caption{Evolution of the errors}
+\end{figure}
+
 \par
 There are numerical error introducing differences between the two methods, but the error only grows up to an order of $10^{-5}$ for a propagation of 200 periods.
 
@@ -265,7 +271,12 @@ There are numerical error introducing differences between the two methods, but t
 %Maybe we can do it when we plot the history of the Keplerian elements
 For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
 
-\par We can see in the \emph{secular evolution} that there is a periodic increase and decrease in eccentricty due to the acceleration from the SRP being always in the same direction and the secular evolution has an oscillatory behaviour caused by Earth's revolution around the Sun.
+\par We can see in the \emph{secular evolution} that there is a superposition of effects from the J2 perturbation and the SRP:
+\begin{itemize}
+    \item \emph{$\dot{\Omega}$} : there is a \emph{nodal regression} due to the inclination $i$ being less than $90\degree$
+    \item  \emph{$\dot{\omega}$} : there is a negative \emph{perigee precession} due to the inclination $i\;> 63.4\degree$ giving a so-called \emph{"Hula-hooping effect"}
+    \item \emph{$\dot{e}$} : there are periodic oscillations with a slight secular decrease
+\end{itemize}
 
 
 \section{Comparison with real data}
