@@ -14,9 +14,10 @@
 \usepackage{amsmath}
 \usepackage{epsfig}
 \usepackage{wasysym}
+\usepackage{gensymb} 
 %\psdraft
 \makenomenclature
-
+\usepackage{marginnote}
 
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \let\oldhat\hat
@@ -133,6 +134,9 @@ Master of Science in\\ Space Engineering \\
 \part{Assignment 1: Interplanetary Explorer Mission}
 
 \chapter{Mission requirements}
+In this report different transfer strategies between the planets Neptune and Mercury are analysed.
+Such strategies are constrained by two time limits: earliest departure from Neptune $1^{st}$ January 2031 and latest arrival at Mercury $1^{st}$ February 2071. Furthermore, they must include a flyby of the planet Venus.
+Once possible transfers are identified, the least expensive in terms of  required is selected.
 % table with:
 % Departure Planet
 % flyby planet
@@ -155,6 +159,43 @@ Master of Science in\\ Space Engineering \\
 \section{Final solution}
 
 \subsection{Heliocentric trajectory}
+(The transfer is studied by placing the system of reference at the centre of the Sun.)
+The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s sphere of influence; the second and third one are inside Venus’ sphere of influence (and are analysed in a later paragraph). The transfer is executed between the times 00:00:36 on 01/02/2031 (dd/mm/yyyy) and 12:43:52 on 05/07/2057. The powered flyby is performed at 08:29:31 on 02/07/2050.
+Figure with complete strategy
+The first arc connects Neptune and Venus orbits. It is characterised by the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{a [km]} & \textbf{e [-]} & \textbf{i [rad]} & \textbf{RAAN [rad]} & \textbf{[rad]} \\ \hline
+$2.7167 \cdot 10^9$       & 0.9738         & 0.0267           & 1.7574              & 1.4913         \\ \hline
+\end{tabular}%
+}
+%\caption{}
+%\label{tab:my-table}
+\end{table}
+
+The initial position is characterised by a true anomaly (f) of 3.2451 rad (, which means that the probe enters its orbit around the sun after the aphelion). In Cartesian coordinates the initial point is identified by the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{R$_x$ [km]}   & \textbf{R$_y$ [km]}   & \textbf{R$_z$ [km]}   \\ \hline
+$43.712 \cdot 10^8$   & $9.348 \cdot 10^8$    & $-1.193 \cdot 10^8$   \\ \hline
+\textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+-3.2267               & 0.2969                & 0.0832                \\ \hline
+\end{tabular}%
+}
+%\caption{}
+%\label{tab:my-table}
+\end{table}
+
+The initial position’s distance from the Sun is 4.4716$\cdot 10^8$ km and the velocity at the initial point is 3.2414 km/s.
+The fourth arc connects the point where the spacecraft exits the Venus’ sphere of influence with Mercury.
 % Departure, flyby and arrival times.
 % Plot of the heliocentric trajectory,together with the orbits of
 % the three planets and their positions at departure, flyby and arrival.
@@ -171,11 +212,25 @@ Master of Science in\\ Space Engineering \\
 \part{Assignment 2: Planetary Explorer Mission}
 
 \chapter{Mission requirements}
-% table with:
-% Central Planet
-% Nominal operational orbit
-% Orbit perturbations to be considered
-% Ratio of satellite and Earth revolutions for the repeating ground track
+In this chapter we are going to explain how we have designed a planetary explorer
+mission to perform Earth observation: we were in fact required to analyse the Earth-centred orbit characterised by the values in the table below and estimate its ground track, studying the effects of the assigned orbit perturbations by integrating both Gauß’s planetary equations and Cartesian equations and subsequently comparing the results of the two methods. After the characterisation of the ground track, we propose a modification of the orbit aimed to get a ground track which repeats itself once a sidereal day.\\
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{a} [$10^4 km$]                                                       & \textbf{e}             & \textbf{i} [deg]   & \textbf{hp} [km]             \\ \hline
+4.0718                                                            & 0.6177        & 78.2195   & 15566.491           \\ \hline
+\begin{tabular}[c]{@{}c@{}}\textbf{Repeating GT} \\ \textbf{ratio k:m$^{note}$}\end{tabular} & \textbf{Perturbations} & \multicolumn{2}{c|}{\textbf{Parameters}} \\ \hline
+1:1                                                               & J2 and SRP    & cR = 1.2  & A/m = 4.000 $m^2/kg$  \\ \hline
+\end{tabular}%
+}
+\caption{Mission requirements}
+\label{tab:Mission_requirements}
+\end{table}
+
+\marginnote{\textbf{Note}: the grountrack repeats itself \textbf{k} times every \textbf{m} revolutions of the planet.}[-4cm]
 
 \chapter{Mission analysis outputs}
 
@@ -233,6 +288,12 @@ To propagate the orbit we used two different methods:
 \par
 There is a marked difference in the computational time between the two methods as the Gaussian elements propagation for a timespan of $50\ T_{orbit}$ has a computation time $t_{GAUSS} = 5.4660*10^{-4} s$ that is much faster than the Cartesian $t_{CART} = 62.2 s$ one.
 
+\begin{figure}[]
+    \centering
+    \includegraphics[width=1.5\textwidth]{400_T_error.eps}
+    \caption{Evolution of the errors}
+\end{figure}
+
 \par
 There are numerical error introducing differences between the two methods, but the error only grows up to an order of $10^{-5}$ for a propagation of 200 periods.
 
@@ -265,7 +326,12 @@ There are numerical error introducing differences between the two methods, but t
 %Maybe we can do it when we plot the history of the Keplerian elements
 For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
 
-\par We can see in the \emph{secular evolution} that there is a periodic increase and decrease in eccentricty due to the acceleration from the SRP being always in the same direction and the secular evolution has an oscillatory behaviour caused by Earth's revolution around the Sun.
+\par We can see in the \emph{secular evolution} that there is a superposition of effects from the J2 perturbation and the SRP:
+\begin{itemize}
+    \item \emph{$\dot{\Omega}$} : there is a \emph{nodal regression} due to the inclination $i$ being less than $90\degree$
+    \item  \emph{$\dot{\omega}$} : there is a negative \emph{perigee precession} due to the inclination $i\;> 63.4\degree$ giving a so-called \emph{"Hula-hooping effect"}
+    \item \emph{$\dot{e}$} : there are periodic oscillations with a slight secular decrease
+\end{itemize}
 
 
 \section{Comparison with real data}
@@ -276,7 +342,7 @@ For the filtering we have used the simple \emph{movmean} function integrated in 
 
 \begin{thebibliography}{9}
 \bibitem{RSW_Curtis} 
-Curtis,H.D. 
+Curtis, H.D. 
 \textit{Orbital mechanics for engineering students}. 
 Butterworth-Heinemann , 2014. Chapter 12
 
