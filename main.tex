@@ -15,6 +15,7 @@
 \usepackage{epsfig}
 \usepackage{wasysym}
 \usepackage{gensymb} 
+\usepackage{subfig}
 %\psdraft
 \makenomenclature
 \usepackage{marginnote}
@@ -74,6 +75,7 @@
 }
 
 \graphicspath{ {images/} }
+
 \title{Orbital Mechanics Project}
 
 \author{Marwan Alkady\\ Pedro Bossi N\'{u}\~{n}ez \\\ Demartini Davide\\ Iafrate Davide\\}
@@ -138,24 +140,79 @@ Master of Science in\\ Space Engineering \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{Assignment 1: Interplanetary Explorer Mission}
 
-\chapter{Mission requirements}
-In this report different transfer strategies between the planets Neptune and Mercury are analysed.
-Such strategies are constrained by two time limits: earliest departure from Neptune $1^{st}$ January 2031 and latest arrival at Mercury $1^{st}$ February 2071. Furthermore, they must include a flyby of the planet Venus.
-Once possible transfers are identified, the least expensive in terms of  required is selected.
+\chapter{Introduction}
+In this chapter, the aim is to design an interplanetary trajectory from Neptune to Mercury with a flyby of Venus. The mission is to be completed between the dates February 1st 2031 and February 1st 2071.\\
+Figure 1 a and b – given orbits\\
+The design process is composed of  different consecutive steps:\\
+\begin{enumerate}
+\item Define the time windows for possible transfer phases (departure, gravity assist and arrival);
+\item Set known parameters and compute the orbits of the three planets of interest;
+\item Set and solve the Lambert’s problem between first Neptune and Venus and then Venus and Mercury at different times inside the possible time windows;
+\item Evaluate the powered gravity assist for every trajectory previously computed;
+\item Selection of the most efficient transfer strategy.
+\end{enumerate}
+
+\section{Method of patched conics}
+The movement of a body inside the interplanetary space cannot be described by the two-body problem since the body itself is subject to the influence of different celestial bodies at once.
+In order to study such movement, an approximation is introduced with the method of the patched conics. With this approximation, the influence of a planet or a gas giant is limited to a sphere named Sphere of Influence (SOI from now on) which radius is calculate using the following equation:
+\begin{equation*}
+    R_{SOI} = R_{CB}\left(\frac{m_{CB}}{m_{Sun}}\right)^{\frac{2}{5}}
+\end{equation*}
+Where $R_{CB}$ is the distance between the celestial body and the sun, .\\ 
+If the body is outside any planet’s or gas giant’s SOI, then it is considered to be subject only to the Sun’s gravity attraction.\\
+Figure 2 – patched conics\\
+In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby.
 % table with:
 % Departure Planet
 % flyby planet
 % arrival planet
 % minimum departure and maximum arrival dates
 
-\chapter{Mission analysis outputs}
+\chapter{Mission analysis}
 
 \section{Design process}
+\subsection{Time windows}
+The Lambert’s problem solution is a section of an elliptical orbit. Furthermore, the minimum time needed to complete a transfer strategy is the time required to run across an elliptical orbit with eccentricity $e\rightarrow1$.
 
-\subsection{Initial choice for the time windows}
+Therefore, given the parabolic times of flight from Neptune to Venus and from Venus to Mercury, it is possible to define the earliest possible date of flyby and arrival starting from the departure date. In particular the earliest possible flyby  and arrival dates can be defined as follows:
+
+\begin{equation*}
+    Fly_{min}=Dep_{min}+ ToF_{NV}
+\end{equation*}
+
+\begin{equation*}
+    Arr_{min}=Fly_{min}+ ToF_{VM}
+\end{equation*}
+
+\begin{equation*}
+    Fly_{max}=Arr_{max}+ ToF_{VM}
+\end{equation*}
+
+Where $ToF_{ij}$ is the parabolic time of flight between the planets i and j.
+Similarly, given the latest arrival date it is possible to define the latest flyby and departure dates:
+
+Figure 3 – time windows\\
+Said dates are computed using the timeWindows script and they are:
+
+\begin{equation*}
+    Dep_{max}=Fly_{max}+ ToF_{NV}
+\end{equation*}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+$Fly_{min}$ & 20-04-2043 \\ \hline
+$Arr_{min}$ & 28-04-2043 \\ \hline
+$Dep_{max}$ & 06-11-2058 \\ \hline
+$Fly_{max}$ & 23-01-2071 \\ \hline
+\end{tabular}
+\end{table}
+
+
 
 \subsection{Additional constraints considered}
-
+We considered ahadsabdkjdbfksnfjkfdfnagbkfjdnewlkvbvjkgbdvnlkaflhrsjkvbdasnkfdbsjdnlksf
 \subsection{Transfer options exploration, analysis and comparison}
 
 \subsection{Selection of the final solution}
@@ -164,9 +221,9 @@ Once possible transfers are identified, the least expensive in terms of  require
 \section{Final solution}
 
 \subsection{Heliocentric trajectory}
-(The transfer is studied by placing the system of reference at the centre of the Sun.)
-The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s sphere of influence; the second and third one are inside Venus’ sphere of influence (and are analysed in a later paragraph). The transfer is executed between the times 00:00:36 on 01/02/2031 (dd/mm/yyyy) and 12:43:52 on 05/07/2057. The powered flyby is performed at 08:29:31 on 02/07/2050.
-Figure with complete strategy
+The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s SOI; the second and third one are inside Venus’ SOI (and are analyzed in a later paragraph). 
+The Transfer strategy is completed between the times 02:54:32 on June 27th 2032 and 03:09:55 on July 11th 2070. The powered flyby is performed at 13:49:55 on July 11th 2061.\\
+Figure - complete strategy\\
 The first arc connects Neptune and Venus orbits. It is characterised by the following data:
 
 \begin{table}[H]
@@ -174,33 +231,46 @@ The first arc connects Neptune and Venus orbits. It is characterised by the foll
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-\textbf{a [km]} & \textbf{e [-]} & \textbf{i [rad]} & \textbf{$\Omega [rad]$} & \textbf{[rad]} \\ \hline
-$2.7167 \cdot 10^9$       & 0.9738         & 0.0267           & 1.7574              & 1.4913         \\ \hline
+\textbf{a [AU]} & \textbf{e [-]} & \textbf{i [°]} & \textbf{RAAN [°]} & \textbf{$\omega$  [°]} \\ \hline
+15,1835         & 0,9487         & 1,5798         & 109,6640          & 85,2838                \\ \hline
 \end{tabular}%
 }
-%\caption{}
-%\label{tab:my-table}
 \end{table}
 
-The initial position is characterised by a true anomaly (f) of 3.2451 rad (, which means that the probe enters its orbit around the sun after the aphelion). In Cartesian coordinates the initial point is identified by the following data:
+The initial position is characterised by a true anomaly (f) of 180,2552°. In Cartesian coordinates the initial point is identified by the following data:
 
 \begin{table}[H]
 \centering
 \resizebox{0.75\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
-\textbf{R$_x$ [km]}   & \textbf{R$_y$ [km]}   & \textbf{R$_z$ [km]}   \\ \hline
-$43.712 \cdot 10^8$   & $9.348 \cdot 10^8$    & $-1.193 \cdot 10^8$   \\ \hline
+\textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
+28.8260   & 7.8326    & -0.8213   \\ \hline
 \textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
--3.2267               & 0.2969                & 0.0832                \\ \hline
+-0.3810               & 0.8955               & 0.0016               \\ \hline
 \end{tabular}%
 }
-%\caption{}
-%\label{tab:my-table}
 \end{table}
 
-The initial position’s distance from the Sun is 4.4716$\cdot 10^8$ km and the velocity at the initial point is 3.2414 km/s.
+The initial position’s distance from the Sun is 29,8825AU and the velocity at the initial point is 0,9732 km/s.
+The final position is characterized by a true anomaly (f) of 94,7162°. In Cartesian coordinates the initial point is identified by the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
+0.3421   & -0.9573   & 0  \\ \hline
+\textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+36.6802              & -18.4610              & -0.7813              \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The initial position’s distance from the Sun is 1,0166 AU and the velocity at the initial point is 41,0714 km/s.
 The fourth arc connects the point where the spacecraft exits the Venus’ sphere of influence with Mercury.
+
 % Departure, flyby and arrival times.
 % Plot of the heliocentric trajectory,together with the orbits of
 % the three planets and their positions at departure, flyby and arrival.
@@ -244,6 +314,30 @@ mission to perform Earth observation: we were in fact required to analyse the Ea
 
 \section{Ground track}
 % GT considering only J2 as perturbation and GT considering the assigned perturbation
+\begin{figure}[H]
+\centering
+\epsfig{file=oneperiod.eps, width=1\textwidth}
+\end{figure}
+\begin{figure}[H]
+\centering
+\epsfig{file=oneday.eps, width=1\textwidth}
+\end{figure}
+\begin{figure}[H]
+\centering
+\epsfig{file=tendays.eps, width=1\textwidth}
+\end{figure}
+\begin{figure}[H]
+\centering
+\epsfig{file=tendayscloseup.eps, width=1\textwidth}
+\end{figure}
+\begin{figure}[H]
+\centering
+\epsfig{file=repeating.eps, width=1\textwidth}
+\end{figure}
+\begin{figure}[H]
+\centering
+\epsfig{file=repeatingcloseup.eps, width=1\textwidth}
+\end{figure}
 
 \section{Orbit Perturbations}
 In our model we included perturbations due to two effects:
@@ -269,11 +363,11 @@ To propagate the orbit we used two different methods:
     \item \textbf{Gauss Planetary Equations}
     \par
     \begin{align*}
-        \frac{da}{dt}&=\frac{2a^2}{h}\Big(e\sin f \: a_r +\frac{p}{r}a_s\Big)\\[1]
-        \frac{de}{dt}&=\frac{1}{h}\Big(p\sin(f) \: a_r+ \Big( (p+r)\cos f +re \Big) a_s\Big)\\[1]
-        \frac{di}{dt} &= \frac{r\cos(f+\omega)}{h}a_w\\[1]
-        \frac{d\Omega}{dt}&=\frac{r\sin (f+\omega) }{h \sin i}a_w\\[1]
-        \frac{d\omega}{dt}&=\frac{1}{he} \Big( \cos f \; a_r + (p+r)\sin f \; a_s \Big ) - \frac{r\sin(f+\omega)\cos i}{h\sin i} a_w\\[1]
+        \frac{da}{dt}&=\frac{2a^2}{h}\Big(e\sin f \: a_r +\frac{p}{r}a_s\Big)\\
+        \frac{de}{dt}&=\frac{1}{h}\Big(p\sin(f) \: a_r+ \Big( (p+r)\cos f +re \Big) a_s\Big)\\
+        \frac{di}{dt} &= \frac{r\cos(f+\omega)}{h}a_w\\
+        \frac{d\Omega}{dt}&=\frac{r\sin (f+\omega) }{h \sin i}a_w\\
+        \frac{d\omega}{dt}&=\frac{1}{he} \Big( \cos f \; a_r + (p+r)\sin f \; a_s \Big ) - \frac{r\sin(f+\omega)\cos i}{h\sin i} a_w\\
         \frac{df}{dt} &= \frac{h}{r^2} + \frac{1}{eh} \Big(p \cos f \; a_r - (p+r)\sin f \; a_s 
     \end{align*}
 
@@ -291,38 +385,31 @@ To propagate the orbit we used two different methods:
 
 \subsection{Comparison}
 \par
-
-\begin{figure}[]
-    \centering
-    \includegraphics[width=1.5\textwidth]{400_T_error.eps}
-    \caption{Evolution of the errors}
+\begin{figure}[H]
+\centering
+\epsfig{file= Perturbations/error.eps, width=\textwidth}
+    \caption{error between Gaussian and Cartesian propagation methods (log scale)}
 \end{figure}
 
 \par
-There are numerical error introducing differences between the two methods, but the error only grows up to an order of $10^{-5}$ for a propagation of 200 periods.
+There are numerical error introducing differences between the two methods, but the error only grows up to an order between $10^{-10}$ and $10^{-8}$ for a propagation of 1200 days, except for the true anomaly which grows to a still small error of $10^{-3}$.
 
 
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
-%% UPDATE THE PLOTS WITH 1YEAR ONES
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{a.png}
-    \caption{Evolution of the semi-major axis}
-    \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{e.png}
-    \caption{Evolution of the eccentricity}
-    \end{figure}
+\begin{tabular}{ccc}
+\subfloat[semi-major axis]{\includegraphics[width = 2.5in]{Perturbations/Evolution/a.png}} &
+\subfloat[eccentricity]{\includegraphics[width = 2.5in]{Perturbations/Evolution/e.png}} \\
+\subfloat[inclination]{\includegraphics[width = 2.5in]{Perturbations/Evolution/i.png}} &
+\subfloat[right ascension of ascending node]{\includegraphics[width = 2.5in]{Perturbations/Evolution/RAAN.png}}\\
+\subfloat[perigee anomaly]{\includegraphics[width = 2.5in]{Perturbations/Evolution/omega.png}} &
+\subfloat[true anomaly]{\includegraphics[width = 2.5in]{Perturbations/Evolution/f.png}} 
+\end{tabular}
 
-
-\begin{figure}[H]
-    \centering
-    \epsfig{file= 400_T.eps, width=\textwidth}
-    \caption{Evolution of keplerian elements}
-    \end{figure}
+\caption{Evolution of keplerian elements}
+\end{figure}
 
 \section{Orbit evolution representation}
 
@@ -332,9 +419,10 @@ For the filtering we have used the simple \emph{movmean} function integrated in 
 
 \par We can see in the \emph{secular evolution} that there is a superposition of effects from the J2 perturbation and the SRP:
 \begin{itemize}
-    \item \emph{$\dot{\Omega}$} : there is a \emph{nodal regression} due to the inclination $i$ being less than $90\degree$
-    \item  \emph{$\dot{\omega}$} : there is a negative \emph{perigee precession} due to the inclination $i\;> 63.4\degree$ giving a so-called \emph{"Hula-hooping effect"}
-    \item \emph{$\dot{e}$} : there are periodic oscillations with a slight secular decrease
+    \item \emph{$a$} : there is a slight secular decrease in the semi-major axis due to the effect of the SRP 
+    \item \emph{$\Omega$} : there is a \emph{nodal regression} due to the inclination $i$ being less than $90\degree$ for the J2 effect
+    \item  \emph{$\omega$} : there is a negative \emph{perigee precession} for the J2 effect due to the inclination $i\;> 63.4\degree$ giving a so-called \emph{"Hula-hooping effect"}
+    \item \emph{$e$} : there are periodic oscillations with a secular increase caused by ovalization of the orbit by the SRP
 \end{itemize}
 
 
