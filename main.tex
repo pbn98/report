@@ -16,7 +16,7 @@
 \usepackage{wasysym}
 \usepackage{gensymb} 
 \usepackage{subfig}
-%\psdraft
+\psdraft
 \makenomenclature
 \usepackage{marginnote}
 
@@ -128,9 +128,10 @@ Master of Science in\\ Space Engineering \\
 \nomenclature{$f$}{true anomaly}
 \nomenclature{h}{specific angular momentum per unit mass}
 \nomenclature{$r$}{radius}
-\nomenclature{AU}{Astronomical Unit (1.495978707×10^8 km)}
+\nomenclature{$AU$}{Astronomical Unit (1.495978707×10^8 km)}
 \nomenclature{$\mu_{\oplus}$}{Gravitational Parameter of Earth}
 \nomenclature{$\mu_{\astrosun}$}{Gravitational Parameter of the Sun}
+\nomenclature{mjd2000}{modified julian date 2000}
 
 \printnomenclature
 \tableofcontents
@@ -155,10 +156,12 @@ The design process is composed of  different consecutive steps:\\
 \section{Method of patched conics}
 The movement of a body inside the interplanetary space cannot be described by the two-body problem since the body itself is subject to the influence of different celestial bodies at once.
 In order to study such movement, an approximation is introduced with the method of the patched conics. With this approximation, the influence of a planet or a gas giant is limited to a sphere named Sphere of Influence (SOI from now on) which radius is calculate using the following equation:
+
 \begin{equation*}
-    R_{SOI} = R_{CB}\left(\frac{m_{CB}}{m_{Sun}}\right)^{\frac{2}{5}}
+    R_{SOI} = R_{CB}\left(\frac{m_{CB}}{m_{\astrosun}}\right)^{\frac{2}{5}}
 \end{equation*}
-Where $R_{CB}$ is the distance between the celestial body and the sun, .\\ 
+
+Where $R_{CB}$ is the distance between the celestial body and the sun, $m_{CB}$ is the mass of the central body and $m_{\astrosun}$ is the mass of the sun.\\ 
 If the body is outside any planet’s or gas giant’s SOI, then it is considered to be subject only to the Sun’s gravity attraction.\\
 Figure 2 – patched conics\\
 In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby.
@@ -212,10 +215,35 @@ $Fly_{max}$ & 23-01-2071 \\ \hline
 
 
 \subsection{Additional constraints considered}
-We considered ahadsabdkjdbfksnfjkfdfnagbkfjdnewlkvbvjkgbdvnlkaflhrsjkvbdasnkfdbsjdnlksf
+One additional constraint that was to be considered is the minimum altitude of the perigee point for the planetocentric hyperbola. We chose this as 200 km, giving us a minimum radius of perigee ofCHECCKKK 6350km++++. For the MATLAB fmincon optimization function this was set using an additional constraint function and also time constraints based on the parabolic time of flights were set using the inequality matrices.
+
 \subsection{Transfer options exploration, analysis and comparison}
+For the selection of an optimum transfer we employed different strategies together.
+To analyze the solutions we built an objective function giving us the $\Delta V$ needed for the transfer given the \emph{arrival}, \emph{gravity assist} and \emph{departure} dates inserted to the function. The function computes the two arcs connecting planets at departure and flyby and the flyby planet to the arrival planet. The outputs consist of the total $\Delta V$ required, then the $\Delta V$'s for the separate legs and the informations for each transfer arc as an object with various properties useful for the rest of the analysis and plotting.
+
+\lstset{style=mystyle}
+\begin{lstlisting}[frame=single,caption=GAtransfer objective function structure]  
+compute first arc
+compute second arc
+join them with flyby
+output total DV 
+\end{lstlisting}
+
+
+\subsubsection{Coarse grid search}
+The first step is a coarse grid search using three nested for loops:\\
+
+\lstset{style=mystyle}
+\lstinputlisting[language=Matlab,caption=coarse grid search,linerange={64-88}]{InterplanetaryMission_group_33.m}
+
+\subsubsection{fmincon refinement}
+The objective function GAtransfer can also be used for the fmincon MATLAB optimization function, which finds the minimum for a constrained nonlinear function using a gradient-based optimizer. This function takes as initial guess the minimum point found from the coarse grid search as a vector of 3 mjd2000 dates, the linear constraint on the window with two $\vec{ub}$ and $\vec{lb}$ vectors, the time of flight constraints with the $\vec{A}$ and $\vec{b}$ inequality matrices and the \emph{nonlinear constraint} on the minimum radius of the hyperbola as a function flyby\_CONSTR\\
+\subsubsection{Other strategies explored}
+
+We also explored using the \emph{genetic algorithm} ("ga" MATLAB function) to find an initial guess to then refine further using fmincon; however due to heuristic algorithm this gave us worse and often inconsistent results between successisve runs of the program.
 
 \subsection{Selection of the final solution}
+The final solution was selected as the one given from the coarse grid search plus the fmincon refinement as this gave us a lower total $\Delta V$. By narrowing the windows we also found other shorter transfers but with an higher total $\Delta V$ so we decided to discard them.
 % with plots and stuff
 
 \section{Final solution}
@@ -397,7 +425,7 @@ There are numerical error introducing differences between the two methods, but t
 
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
-
+The Keplerian elements are plotted here for 1200 days from 2021-01-01
 \begin{figure}[H]
 \begin{tabular}{ccc}
 \subfloat[semi-major axis]{\includegraphics[width = 2.5in]{Perturbations/Evolution/a.png}} &
