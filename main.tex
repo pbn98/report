@@ -1,6 +1,7 @@
 % HEADERS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt,a4paper]{report}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{verbatim}
@@ -23,19 +24,19 @@
 \let\oldhat\hat
 \renewcommand{\hat}[1]{\oldhat{\mathbf{#1}}}
 
-\titleformat{\part}[display]
+\titleformat{\chapter}[display]
   {\Huge\bfseries}
   {}
   {0pt}
   {}
 
-\titleformat{\chapter}[display]
+\titleformat{\section}[display]
  {\huge\bfseries}
  {}
  {0pt}
  {}
 
- \titleformat{\section}[display]
+ \titleformat{\subsection}[display]
  {\Large\bfseries}
  {}
  {0pt}
@@ -139,9 +140,9 @@ Master of Science in\\ Space Engineering \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEXT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{Assignment 1: Interplanetary Explorer Mission}
+\chapter{Assignment 1: Interplanetary Explorer Mission}
 
-\chapter{Introduction}
+\section{Introduction}
 In this chapter, the aim is to design an interplanetary trajectory from Neptune to Mercury with a flyby of Venus. The mission is to be completed between the dates February 1st 2031 and February 1st 2071.\\
 
 \begin{figure}[H]
@@ -161,7 +162,7 @@ The design process is composed of  different consecutive steps:\\
 \item Selection of the most efficient transfer strategy.
 \end{enumerate}
 
-\section{Method of patched conics}
+\subsection{Method of patched conics}
 The movement of a body inside the interplanetary space cannot be described by the two-body problem since the body itself is subject to the influence of different celestial bodies at once.
 In order to study such movement, an approximation is introduced with the method of the patched conics. With this approximation, the influence of a planet or a gas giant is limited to a sphere named Sphere of Influence (SOI from now on) which radius is calculate using the following equation:
 
@@ -179,10 +180,10 @@ If the body is outside any planet’s or gas giant’s SOI, then it is considere
 
 In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby. Therefore, the cost of the mission is only composed of: powered flyby, transfer trajectory insertion and planetary rendezvous burn.
 
-\chapter{Mission analysis}
+\section{Mission analysis}
 
-\section{Design process}
-\subsection{Time windows}
+\subsection{Design process}
+\subsubsection{Time windows}
 The Lambert’s problem solution is a section of an elliptical orbit. Furthermore, the minimum time needed to complete a Lambert transfer is the time required to run across an elliptical orbit with eccentricity $e\rightarrow1$, which therefore is a parabola.
 
 Therefore, given the parabolic times of flight from Neptune to Venus and from Venus to Mercury, it is possible to define the earliest possible date of flyby and arrival starting from the departure date. In particular the earliest possible flyby  and arrival dates can be defined as follows:
@@ -223,10 +224,10 @@ $Fly_{max}$ & 23-01-2071 \\ \hline
 \end{tabular}
 \end{table}
 
-\subsection{Additional constraints considered}
+\subsubsection{Additional constraints considered}
 One additional constraint that was to be considered is the minimum altitude of the perigee point for the planetocentric hyperbola at Venus flyby. We chose this as 300 km, giving us a minimum radius of pericenter of 6351.8 km. For the MATLAB fmincon optimization function this was set using an additional constraint function and also time constraints based on the parabolic time of flights were set using the inequality matrices and simple checks in the coarse grid search.
 
-\subsection{Transfer options exploration, analysis and comparison}
+\subsubsection{Transfer options exploration, analysis and comparison}
 For the selection of an optimum transfer we employed different strategies together.
 To analyze the solutions we built an objective function giving us the $\Delta V$ needed for the transfer given the \emph{arrival}, \emph{gravity assist} and \emph{departure} dates inserted to the function. The function computes the two arcs connecting planets at departure and flyby and the flyby planet to the arrival planet. The outputs consist of the total $\Delta V$ required, then the $\Delta V$'s for the separate legs and the informations for each transfer arc as an object with various fields useful for the rest of the analysis and plotting.
 
@@ -238,7 +239,7 @@ join them with flyby
 output total DV 
 \end{lstlisting}
 
-\subsubsection{Coarse grid search}
+\paragraph{Coarse grid search}
 The first step is a coarse grid search using three nested for loops:\\
 
 \lstset{style=mystyle}
@@ -246,18 +247,18 @@ The first step is a coarse grid search using three nested for loops:\\
 
 For these loops we employed a parfor outer loop to take advantage of the parallel processing capabilities of MATLAB, using all 4 cpu cores. This allowed us to speed up the grid search substantially, now taking only 500s with a size of $2.7e6  $ elements.
 
-\subsubsection{fmincon refinement}
+\paragraph{fmincon refinement}
 The objective function GAtransfer can also be used for the fmincon MATLAB optimization function, which finds the minimum for a constrained nonlinear function using a gradient-based optimizer. This function takes as initial guess the minimum point found from the coarse grid search as a vector of 3 mjd2000 dates, the linear constraint on the windows with two $\vec{ub}$ and $\vec{lb}$ vectors, the time of flight constraints with the $\vec{A}$ and $\vec{b}$ inequality matrices and the \emph{nonlinear constraint} on the minimum pericenter radius of the hyperbola as a function flyby\_CONSTR\\
-\subsubsection{Other strategies explored}
+\paragraph{Other strategies explored}
 
 We also explored using the \emph{genetic algorithm} ("ga" MATLAB function) to find an initial guess to then refine further using fmincon, making use of the parallel computing toolbox to us all the 4 CPU cores of our CPU simultaneously; however due to heuristic algorithm this gave us worse and often inconsistent results between successisve runs of the program.
 
-\subsection{Selection of the final solution}
+\subsubsection{Selection of the final solution}
 The final solution was selected as the one given from the coarse grid search plus the fmincon refinement as this gave us a lower total $\Delta V$. By narrowing the windows we also found other shorter transfers but with an higher total $\Delta V$ so we decided to discard them.
 
-\section{Final solution}
+\subsection{Final solution}
 
-\subsection{Heliocentric trajectory}
+\subsubsection{Heliocentric trajectory}
 The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s SOI; the second and third one are inside Venus’ SOI (and are analyzed in a later paragraph). 
 The Transfer strategy is completed between the times 02:42:52 on February 16th 2033 and 19:54:49 on July 10th 2070. The powered flyby is performed at 13:36:07 on September 30th 2064.\\
 
@@ -273,7 +274,7 @@ The first arc connects Neptune and Venus orbits. It is characterised by the foll
 
 \begin{table}[H]
 \centering
-\resizebox{\textwidth}{!}{%
+\resizebox{0.7\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \textbf{a [AU]} & \textbf{e [-]} & \textbf{i [°]} & \textbf{RAAN [°]} & \textbf{$\omega$  [°]} \\ \hline
@@ -302,7 +303,7 @@ The final position is characterized by a true anomaly (f) of 74.92°. In Cartesi
 
 \begin{table}[H]
 \centering
-\resizebox{0.75\textwidth}{!}{%
+\resizebox{0.7\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
@@ -317,7 +318,7 @@ The final position’s distance from the Sun is 0.7270AU and the velocity at the
 
 \begin{figure}[H]
 \centering
-\epsfig{file= First_arc.eps, width=\textwidth}
+\epsfig{file= First_arc.eps, width=0.7\textwidth}
     \caption{First arc}
 \end{figure}
 
@@ -325,7 +326,7 @@ The second arc goes from Venus to Mercury. It is characterized by the following 
 
 \begin{table}[H]
 \centering
-\resizebox{\textwidth}{!}{%
+\resizebox{0.7\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \textbf{a [AU]} & \textbf{e [-]} & \textbf{i [°]} & \textbf{RAAN [°]} & \textbf{$\omega$  [°]} \\ \hline
@@ -339,7 +340,7 @@ the following data:
 
 \begin{table}[H]
 \centering
-\resizebox{0.75\textwidth}{!}{%
+\resizebox{0.7\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
@@ -368,11 +369,11 @@ the following data:
 \end{table}
 The final position’s distance from the Sun is 0.4232AU and the velocity at the initial point is 62.60 km/s.
 
-\subsection{Powered gravity assist}
+\subsubsection{Powered gravity assist}
 
 \begin{figure}[H]
 \centering
-\epsfig{file= Second_arc.eps, width=\textwidth}
+\epsfig{file= Second_arc.eps, width=0.7\textwidth}
     \caption{Second arc}
 \end{figure}
 
@@ -426,11 +427,11 @@ The spacecraft passes at a minimum distance of 6300 km from Venus’ centre.
 
 \begin{figure}[H]
 \centering
-\epsfig{file= Flyby.eps, width=\textwidth}
+\epsfig{file= Flyby.eps, width=0.7\textwidth}
     \caption{Venus Flyby}
 \end{figure}
 
-\subsection{Cost of the mission}
+\subsubsection{Cost of the mission}
 
 The total cost of the mission is defined by adding the cost of three separate burns. 
 The first one is the one needed to exit Neptune’s orbit and initiate the transfer. The cost of this burn is computed by determining the difference between Neptune’s velocity vector at departure date and the transfer initial velocity vector.
@@ -446,9 +447,9 @@ The final burn is performed at the end of the transfer trajectory in order to re
 The cost of the last burn is 19.45 km/s.
 The total cost of the mission is 23.97 km/s.
 
-\part{Assignment 2: Planetary Explorer Mission}
+\chapter{Assignment 2: Planetary Explorer Mission}
 
-\chapter{Mission requirements}
+\section{Mission requirements}
 In this chapter we are going to explain how we have designed a planetary explorer
 mission to perform Earth observation: we were in fact required to analyse the Earth-centred orbit characterised by the values in the table below and estimate its ground track, studying the effects of the assigned orbit perturbations by integrating both Gauß’s planetary equations and Cartesian equations and subsequently comparing the results of the two methods. After the characterisation of the ground track, we propose a modification of the orbit aimed to get a ground track which repeats itself once a sidereal day.\\
 We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity, a RAAN of 0 degrees.
@@ -472,9 +473,9 @@ We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity
 
 The orbit we've been assigned, represented in the following images, is almost geosynchronous: in fact it has a period of $22h 42 min 49s$, which is very close to a sidereal day. With a perigee height of 9195.5 km and an apogee height of 59498.5 km, the orbit is very eccentric and, since its inclination is very high, it would be suitable for a communication satellite designed to service austral regions, as the satellite spends most of the time in the southern hemisphere (apogee dwell).  
 Due to the fact that even at the perigee the atmospheric drag is negligible, the assigned perturbations should be sufficient to model the orbit with a good level of accuracy.
-\chapter{Mission analysis outputs}
+\section{Mission analysis outputs}
 
-\section{Ground track}
+\subsection{Ground track}
 % GT considering only J2 as perturbation and GT considering the assigned perturbation
 \begin{figure}[H]
 \centering
@@ -510,7 +511,7 @@ Due to the fact that even at the perigee the atmospheric drag is negligible, the
 To modify the semi-major axis in order to obtain a geosynchronous orbit, for the unperturbed case we simply calculated the semi-major axis which corresponds to a period of a sidereal day, whereas when taking into account the second zonal harmonic perturbation we included the modification of the nodal periods of satellite and Earth due to the Secular effects of J2: the regression of the nodes in the short term is therefore visible when comparing the ground tracks.
 In the first case we obtained a semi-major axis of 42166.2 km, while in the second one we got $a = 42163.6$ km
 
-\section{Orbit Perturbations}
+\subsection{Orbit Perturbations}
 In our model we included perturbations due to two effects:
 \begin{itemize}
     \item \textbf{Second Zonal Harmonic \emph{J2}} \par Models the Earth Oblateness using the spherical geopotentials model, truncated to the second term.
@@ -525,8 +526,8 @@ These forces give an acceleration to the spacecraft so that the total accelerati
     \vec{a} = - \frac{\mu_{\oplus}}{r^3}\vec{r} + \vec{a}_{SRP} + \vec{a}_{J2}
 \end{equation}
 
-\section{Orbit Propagation}
-\subsection{Methods}
+\subsection{Orbit Propagation}
+\subsubsection{Methods}
 % In Cartesian coordinates and Keplerian elements through Gauss’ planetary equations,
 %comparison of the propagation methods in terms of accuracy, computational time etc.
 To propagate the orbit we used two different methods:
@@ -554,7 +555,7 @@ To propagate the orbit we used two different methods:
     
 \end{itemize}
 
-\subsection{Comparison}
+\subsubsection{Comparison}
 \par
 \begin{figure}[H]
 \centering
@@ -565,10 +566,11 @@ To propagate the orbit we used two different methods:
 \par
 There are numerical error introducing differences between the two methods, but the error only grows up to an order between $10^{-10}$ and $10^{-8}$ for a propagation of 1200 days, except for the true anomaly which grows to a still small error of $10^{-3}$.
 
-\section{History of the Keplerian elements}
+\subsection{History of the Keplerian elements}
 % plot the history of every keplerian element
 The Keplerian elements are plotted here for 1200 days from 2021-01-01
 \begin{figure}[H]
+\centering
 \begin{tabular}{ccc}
 \subfloat[semi-major axis]{\includegraphics[width = 2.4in]{Perturbations/Evolution/a.png}} &
 \subfloat[eccentricity]{\includegraphics[width = 2.4in]{Perturbations/Evolution/e.png}} \\
@@ -577,13 +579,12 @@ The Keplerian elements are plotted here for 1200 days from 2021-01-01
 \subfloat[perigee anomaly]{\includegraphics[width = 2.4in]{Perturbations/Evolution/omega.png}} &
 \subfloat[true anomaly]{\includegraphics[width = 2.4in]{Perturbations/Evolution/f.png}} 
 \end{tabular}
-
 \caption{Evolution of keplerian elements}
 \end{figure}
 
-\section{Orbit evolution representation}
+\subsection{Orbit evolution representation}
 
-\section{HF filtering}
+\subsection{HF filtering}
 %Maybe we can do it when we plot the history of the Keplerian elements
 For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
 
@@ -595,9 +596,9 @@ For the filtering we have used the simple \emph{movmean} function integrated in 
     \item \emph{$e$} : there are periodic oscillations with a secular increase caused by ovalization of the orbit by the SRP
 \end{itemize}
 
-\section{Comparison with real data}
+\subsection{Comparison with real data}
 
-\subsection{Satellite selection}
+\subsubsection{Satellite selection}
 We searched for a satellite in the same orbital region on celestrack.org website and we found a satellite with the same inclination as ours. 
 The satellite is NASA’s Global Geospace Science (GSS) Polar satellite.
 This satellite was operative from 24th of February 1996 to 28th of April 2008 with the following parameters:
@@ -613,7 +614,7 @@ This satellite was operative from 24th of February 1996 to 28th of April 2008 wi
 \end{tabular}%
 }
 \end{table}
-\subsection{Comparison with our model}
+\subsubsection{Comparison with our model}
 
 To get a significant time span, we resembled operative years from second of January 2000 to first of August 2002 in our model. After obtaining the TLEs from celestrack.org, we entered the ephemerides obtained from JPL Horizon website in a text file and loaded it in Mat lab. After extracting the Keplerian elements from the text file, we plotted them  and compared them with Keplerian elements obtained from our model.: 
 
