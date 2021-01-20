@@ -1,0 +1,12 @@
+\begin{table}[H]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
+AAAAA   & BBBBB   & CCCCC  \\ \hline
+\textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+DDDDD              & EEEEE              & FFFFF              \\ \hline
+\end{tabular}%
+}
+\end{table}

@@ -1,7 +1,6 @@
 % HEADERS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt,a4paper]{report}
-%\usepackage[italian]{babel}
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{verbatim}
@@ -16,7 +15,7 @@
 \usepackage{wasysym}
 \usepackage{gensymb} 
 \usepackage{subfig}
-%\psdraft
+\psdraft
 \makenomenclature
 \usepackage{marginnote}
 
@@ -109,7 +108,7 @@ Master of Science in\\ Space Engineering \\
 	\vspace{3cm}
 	{\huge Group 33\\}
 	\vspace{0.4cm}
-	{\LARGE Marwan Alkady 88888 - 88888888\\ Pedro Bossi N\'{u}\~{n}ez 887651 - 10561223\\ Davide Demartini 888657 - 10574461\\ Davide Iafrate 967709 - 10800009\\ \par}
+	{\LARGE Marwan Alkady 967709 - 10761737\\ Pedro Bossi N\'{u}\~{n}ez 887651 - 10561223\\ Davide Demartini 888657 - 10574461\\ Davide Iafrate 967709 - 10800009\\ \par}
 
 %	Set the date
 \vspace{1cm}
@@ -132,6 +131,7 @@ Master of Science in\\ Space Engineering \\
 \nomenclature{$\mu_{\oplus}$}{Gravitational Parameter of Earth}
 \nomenclature{$\mu_{\astrosun}$}{Gravitational Parameter of the Sun}
 \nomenclature{mjd2000}{modified julian date 2000}
+\nomenclature{ToF_{ij}}{Parabolic time of flight from i to j}
 
 \printnomenclature
 \tableofcontents
@@ -143,7 +143,15 @@ Master of Science in\\ Space Engineering \\
 
 \chapter{Introduction}
 In this chapter, the aim is to design an interplanetary trajectory from Neptune to Mercury with a flyby of Venus. The mission is to be completed between the dates February 1st 2031 and February 1st 2071.\\
-Figure 1 a and b – given orbits\\
+
+\begin{figure}[H]
+\begin{tabular}{ccc}
+\subfloat{\includegraphics[width = 2.4in]{Given_orbits_a.eps}} &
+\subfloat{\includegraphics[width = 2.4in]{Given_orbits_b.eps}} \\
+\end{tabular}
+\caption{Given orbits}
+\end{figure}
+
 The design process is composed of  different consecutive steps:\\
 \begin{enumerate}
 \item Define the time windows for possible transfer phases (departure, gravity assist and arrival);
@@ -163,43 +171,46 @@ In order to study such movement, an approximation is introduced with the method 
 
 Where $R_{CB}$ is the distance between the celestial body and the sun, $m_{CB}$ is the mass of the central body and $m_{\astrosun}$ is the mass of the sun.\\ 
 If the body is outside any planet’s or gas giant’s SOI, then it is considered to be subject only to the Sun’s gravity attraction.\\
-Figure 2 – patched conics\\
-In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby.
-% table with:
-% Departure Planet
-% flyby planet
-% arrival planet
-% minimum departure and maximum arrival dates
+
+\begin{figure}[H]
+\includegraphics[width = \textwidth]{patched_conics.jpg}
+\caption{Patched conics}
+\end{figure}
+
+In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby. Therefore, the cost of the mission is only composed of: powered flyby, transfer trajectory insertion and planetary rendezvous burn.
 
 \chapter{Mission analysis}
 
 \section{Design process}
 \subsection{Time windows}
-The Lambert’s problem solution is a section of an elliptical orbit. Furthermore, the minimum time needed to complete a transfer strategy is the time required to run across an elliptical orbit with eccentricity $e\rightarrow1$.
+The Lambert’s problem solution is a section of an elliptical orbit. Furthermore, the minimum time needed to complete a Lambert transfer is the time required to run across an elliptical orbit with eccentricity $e\rightarrow1$, which therefore is a parabola.
 
 Therefore, given the parabolic times of flight from Neptune to Venus and from Venus to Mercury, it is possible to define the earliest possible date of flyby and arrival starting from the departure date. In particular the earliest possible flyby  and arrival dates can be defined as follows:
 
 \begin{equation*}
     Fly_{min}=Dep_{min}+ ToF_{NV}
 \end{equation*}
-
 \begin{equation*}
-    Arr_{min}=Fly_{min}+ ToF_{VM}
+    Arr_{min}=Fly_{min} + ToF_{VM}
 \end{equation*}
-
 \begin{equation*}
-    Fly_{max}=Arr_{max}+ ToF_{VM}
+    Fly_{max}=Arr_{max}- ToF_{VM}
+\end{equation*}
+\begin{equation*}
+    Dep_{max}=Fly_{max} - ToF_{NV}
 \end{equation*}
 
 Where $ToF_{ij}$ is the parabolic time of flight between the planets i and j.
 Similarly, given the latest arrival date it is possible to define the latest flyby and departure dates:
 
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{time_windows.jpg}
+\caption{time windows}
+\end{figure}
+
 Figure 3 – time windows\\
 Said dates are computed using the timeWindows script and they are:
-
-\begin{equation*}
-    Dep_{max}=Fly_{max}+ ToF_{NV}
-\end{equation*}
 
 \begin{table}[H]
 \centering
@@ -211,8 +222,6 @@ $Dep_{max}$ & 06-11-2058 \\ \hline
 $Fly_{max}$ & 23-01-2071 \\ \hline
 \end{tabular}
 \end{table}
-
-
 
 \subsection{Additional constraints considered}
 One additional constraint that was to be considered is the minimum altitude of the perigee point for the planetocentric hyperbola at Venus flyby. We chose this as 300 km, giving us a minimum radius of pericenter of 6351.8 km. For the MATLAB fmincon optimization function this was set using an additional constraint function and also time constraints based on the parabolic time of flights were set using the inequality matrices and simple checks in the coarse grid search.
@@ -229,7 +238,6 @@ join them with flyby
 output total DV 
 \end{lstlisting}
 
-
 \subsubsection{Coarse grid search}
 The first step is a coarse grid search using three nested for loops:\\
 
@@ -242,18 +250,25 @@ For these loops we employed a parfor outer loop to take advantage of the paralle
 The objective function GAtransfer can also be used for the fmincon MATLAB optimization function, which finds the minimum for a constrained nonlinear function using a gradient-based optimizer. This function takes as initial guess the minimum point found from the coarse grid search as a vector of 3 mjd2000 dates, the linear constraint on the windows with two $\vec{ub}$ and $\vec{lb}$ vectors, the time of flight constraints with the $\vec{A}$ and $\vec{b}$ inequality matrices and the \emph{nonlinear constraint} on the minimum pericenter radius of the hyperbola as a function flyby\_CONSTR\\
 \subsubsection{Other strategies explored}
 
-We also explored using the \emph{genetic algorithm} ("ga" MATLAB function) to find an initial guess to then refine further using fmincon, making use of the parallel computing toolbox to us all the 4 CPU corse of our CPU simultaneously; however due to heuristic algorithm this gave us worse and often inconsistent results between successisve runs of the program.
+We also explored using the \emph{genetic algorithm} ("ga" MATLAB function) to find an initial guess to then refine further using fmincon, making use of the parallel computing toolbox to us all the 4 CPU cores of our CPU simultaneously; however due to heuristic algorithm this gave us worse and often inconsistent results between successisve runs of the program.
 
 \subsection{Selection of the final solution}
 The final solution was selected as the one given from the coarse grid search plus the fmincon refinement as this gave us a lower total $\Delta V$. By narrowing the windows we also found other shorter transfers but with an higher total $\Delta V$ so we decided to discard them.
-% with plots and stuff
 
 \section{Final solution}
 
 \subsection{Heliocentric trajectory}
 The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s SOI; the second and third one are inside Venus’ SOI (and are analyzed in a later paragraph). 
-The Transfer strategy is completed between the times 02:54:32 on June 27th 2032 and 03:09:55 on July 11th 2070. The powered flyby is performed at 13:49:55 on July 11th 2061.\\
-Figure - complete strategy\\
+The Transfer strategy is completed between the times 02:42:52 on February 16th 2033 and 19:54:49 on July 10th 2070. The powered flyby is performed at 13:36:07 on September 30th 2064.\\
+
+\begin{figure}[H]
+\begin{tabular}{ccc}
+\subfloat{\includegraphics[width = 2.4in]{Complete_strategy_a.eps}} &
+\subfloat{\includegraphics[width = 2.4in]{Complete_strategy_b.eps}} \\
+\end{tabular}
+\caption{Complete strategy}
+\end{figure}
+
 The first arc connects Neptune and Venus orbits. It is characterised by the following data:
 
 \begin{table}[H]
@@ -262,7 +277,7 @@ The first arc connects Neptune and Venus orbits. It is characterised by the foll
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 \textbf{a [AU]} & \textbf{e [-]} & \textbf{i [°]} & \textbf{RAAN [°]} & \textbf{$\omega$  [°]} \\ \hline
-15,1835         & 0,9487         & 1,5798         & 109,6640          & 85,2838                \\ \hline
+15.1835         & 0.9487         & 1.5798         & 109.6640          & 85.2838                \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -298,28 +313,145 @@ The final position is characterized by a true anomaly (f) of 94,7162°. In Carte
 }
 \end{table}
 
-The initial position’s distance from the Sun is 1,0166 AU and the velocity at the initial point is 41,0714 km/s.
-The fourth arc connects the point where the spacecraft exits the Venus’ sphere of influence with Mercury.
+The initial position’s distance from the Sun is 0.7264AU and the velocity at the initial point is 49.045km/s.
 
-% Departure, flyby and arrival times.
-% Plot of the heliocentric trajectory,together with the orbits of
-% the three planets and their positions at departure, flyby and arrival.
+\begin{figure}[H]
+\centering
+\epsfig{file= First_arc.eps, width=\textwidth}
+    \caption{First arc}
+\end{figure}
+
+The second arc goes from Venus to Mercury. It is characterized by the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{a [AU]} & \textbf{e [-]} & \textbf{i [°]} & \textbf{RAAN [°]} & \textbf{$\omega$  [°]} \\ \hline
+3.8840         & 0.8981         & 0.0751         & 78.1190         & 95.9519                \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The initial position is characterized by a true anomaly (f) of 87.8310°. In Cartesian coordinates the initial point is identified by the following data:
+the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
+-0.1025   & - 0.7192   & -0.0036  \\ \hline
+\textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+30.733              & -35.520              & -2.811              \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The initial position’s distance from the Sun is 0.7264AU and the velocity at the initial point is 47.054km/s.
+The final position is characterized by a true anomaly (f) of 22.2292°. In Cartesian coordinates the initial point is identified by the following data:
+the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
+-0.3927   & -0.1153   & 0.0271  \\ \hline
+\textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+6.404              & -63.674              & -1.457              \\ \hline
+\end{tabular}%
+}
+\end{table}
 
 \subsection{Powered gravity assist}
-% Altitude of the closest approach.
-% Time duration of the flyby (considering a finite SOI).
-% Compare total flyby \Delta v with the cost of the manoeuvre \Delta v_{ga}
-% Plot of the incoming and outcoming hyperbola arcs
+
+The initial position’s distance from the Sun is 0.4101AU and the velocity at the initial point is 64.012 km/s.
+
+\begin{figure}[H]
+\centering
+\epsfig{file= Second_arc.eps, width=\textwidth}
+    \caption{Second arc}
+\end{figure}
+
+Powered gravity assist
+Venus’ SOI radius is calculated to be $6.1883\cdot10^{5}$ km (0.0041AU).
+The approximation of stationary central body is introduced: while the spacecraft is inside Venus’ SOI , the planet itself is considered fixed at the position it has at the moment of the flyby burn.
+The probe’s trajectory inside Venus’ SOI is composed of two semi-hyperbolas connected at their perigee where the flyby burn is performed. Those hyperbolas are defined by their escape velocities which are:
+the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|}
+\hline
+                             & \textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+\textbf{$V_{\infty}^{^{-}}$} & -0.906                & -30.687               & 0.749                 \\ \hline
+\textbf{$V_{\infty}^{^{+}}$} & -3.705                & -30.439               & -0.752                \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The incoming hyperbola is characterized by the following data:
+the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{a [km]}         & \textbf{e [-]}       & \textbf{$\delta$ [°]}      & \textbf{$\Delta$ [km]}    & \textbf{v$_p$ [km/s]}      & \textbf{$\theta_{\infty}$ [°]}       & \textbf{$\beta$ [°]}       \\ \hline
+-344.4569 & 19.2897 & 0.1038 & 6628 & 32.345 & 92.9716 & 87.0284 \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The outgoing hyperbola is characterized by the following data:
+the following data:
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{a [km]} & \textbf{e [-]} & \textbf{$\delta$ [°]} & \textbf{$\Delta$ [km]} & \textbf{v$_p$ [km/s]} & \textbf{$\theta_{\infty}$ [°]} & \textbf{$\beta$ [°]} \\ \hline
+-345.2779       & 19.2462        & 0.1038                & 6628                   & 32.311                & 92.9783                        & 87.0217              \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+The spacecraft passes at a minimum distance of 6300 km from Venus’ centre.
+
+\begin{figure}[H]
+\centering
+\epsfig{file= Flyby.eps, width=\textwidth}
+    \caption{Venus Flyby}
+\end{figure}
 
 \subsection{Cost of the mission}
-%\Delta v_{dep}, \Delta v_{ga}, \Delta v_{arr}.
+
+The total cost of the mission is defined by adding the cost of three separate burns. 
+The first one is the one needed to exit Neptune’s orbit and initiate the transfer. The cost of this burn is computed by determining the difference between Neptune’s velocity vector at departure date and the transfer initial velocity vector.
+\begin{equation*}
+    \Delta V_1 = V_T^1 - V_{N}\mid_{DEP}
+\end{equation*}
+The cost of the first manoeuvre is the module of . In particular, the first burn requires 6.46 km/s to be completed.
+The second burn is executed at flyby. Since the difference in potential energy between the Venus and Neptune’s orbits is very high, the spacecraft reaches Venus with high kinetic energy. Therefore, the second manoeuvre represents only the $0.13\%$ of the transfer total cost. Specifically, the flyby manoeuvre requires 0.03 km/s.
+The final burn is performed at the end of the transfer trajectory in order to rendezvous with Mercury. The cost of this burn is represented by the difference between Mercury’s velocity vector evaluated on the arrival date and the velocity vector at the end of the transfer.
+\begin{equation*}
+    \Delta V_1 = V_{M}\mid_{ARR}- V_T^2
+\end{equation*}
+The cost of the last burn is 19.75 km/s.
 
 \part{Assignment 2: Planetary Explorer Mission}
 
 \chapter{Mission requirements}
 In this chapter we are going to explain how we have designed a planetary explorer
 mission to perform Earth observation: we were in fact required to analyse the Earth-centred orbit characterised by the values in the table below and estimate its ground track, studying the effects of the assigned orbit perturbations by integrating both Gauß’s planetary equations and Cartesian equations and subsequently comparing the results of the two methods. After the characterisation of the ground track, we propose a modification of the orbit aimed to get a ground track which repeats itself once a sidereal day.\\
-For the sake of simplicity, we have chosen a RAAN of 0 degrees.
+We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity, a RAAN of 0 degrees.
 
 \begin{table}[H]
 \centering
@@ -433,7 +565,6 @@ To propagate the orbit we used two different methods:
 \par
 There are numerical error introducing differences between the two methods, but the error only grows up to an order between $10^{-10}$ and $10^{-8}$ for a propagation of 1200 days, except for the true anomaly which grows to a still small error of $10^{-3}$.
 
-
 \section{History of the Keplerian elements}
 % plot the history of every keplerian element
 The Keplerian elements are plotted here for 1200 days from 2021-01-01
@@ -464,7 +595,6 @@ For the filtering we have used the simple \emph{movmean} function integrated in 
     \item \emph{$e$} : there are periodic oscillations with a secular increase caused by ovalization of the orbit by the SRP
 \end{itemize}
 
-
 \section{Comparison with real data}
 
 \subsection{Satellite selection}
@@ -489,7 +619,8 @@ By setting the initial conditions in the model as that of the real satellite, we
 
 \begin{figure}[H]
 \centering
-\epsfig{file=comparisonwithtles.eps , width=1\textwidth}
+\includegraphics[width=1\textwidth]{comparisonwithtles}
+%\epsfig{file=comparisonwithtles.eps , width=1\textwidth}
 \caption{comparison with our model}
 \end{figure}
 
