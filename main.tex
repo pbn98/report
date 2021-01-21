@@ -79,7 +79,7 @@
 
 \title{Orbital Mechanics Project}
 
-\author{Marwan Alkady\\ Pedro Bossi N\'{u}\~{n}ez \\\ Demartini Davide\\ Iafrate Davide\\}
+\author{Marwan Alkady\\ Pedro Bossi Núñez \\ Demartini Davide\\ Iafrate Davide\\}
 \date{\today}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,12 +105,10 @@ Master of Science in\\ Space Engineering \\
 		 \par}
 		\vspace{3cm}
 	{\Huge{Orbital Mechanics Project}} \\
-	%\vspace{1cm}
-	%{\large \textbf{xxxxx} \par}
 	\vspace{3cm}
 	{\huge Group 33\\}
 	\vspace{0.4cm}
-	{\LARGE Marwan Alkady 967709 - 10761737\\ Pedro Bossi N\'{u}\~{n}ez 887651 - 10561223\\ Davide Demartini 888657 - 10574461\\ Davide Iafrate 967709 - 10800009\\ \par}
+	{\LARGE Marwan Alkady 967709 - 10761737\\ Pedro Bossi Núñez 887651 - 10561223\\ Davide Demartini 888657 - 10574461\\ Davide Iafrate 967709 - 10800009\\ \par}
 
 %	Set the date
 \vspace{1cm}
@@ -129,11 +127,14 @@ Master of Science in\\ Space Engineering \\
 \nomenclature{$f$}{true anomaly}
 \nomenclature{h}{specific angular momentum per unit mass}
 \nomenclature{$r$}{radius}
-\nomenclature{$AU$}{Astronomical Unit (1.495978707×10^8 km)}
+\nomenclature{$AU$}{Astronomical Unit ($1.495978707×10^8$ km)}
 \nomenclature{$\mu_{\oplus}$}{Gravitational Parameter of Earth}
 \nomenclature{$\mu_{\astrosun}$}{Gravitational Parameter of the Sun}
 \nomenclature{mjd2000}{modified julian date 2000}
-\nomenclature{ToF_{ij}}{Parabolic time of flight from i to j}
+\nomenclature{$ToF_{ij}$}{Parabolic time of flight from i to j}
+\nomenclature{$\Delta v_{GA}$}{cost of the hyperbola perigee burn manoeuvre}
+\nomenclature{$p$}{semi-latus rectum}
+\nomenclature{$\vec{V_T^i}$}{velocity vector of transfer arc i}
 
 \printnomenclature
 \tableofcontents
@@ -141,10 +142,10 @@ Master of Science in\\ Space Engineering \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TEXT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Assignment 1: Interplanetary Explorer Mission}
+\chapter{Assignment 1:\\ Interplanetary Explorer Mission}
 
 \section{Introduction}
-In this chapter, the aim is to design an interplanetary trajectory from Neptune to Mercury with a flyby of Venus. The mission is to be completed between the dates February 1st 2031 and February 1st 2071.\\
+The aim of this assignment is to design an interplanetary trajectory from Neptune to Mercury with a flyby of Venus. The mission is to be completed between 1 February 2031 and 1 February 2071.\\
 
 \begin{figure}[H]
 \centering
@@ -155,10 +156,10 @@ In this chapter, the aim is to design an interplanetary trajectory from Neptune 
 \begin{figure}[H]
 \centering
 \includegraphics[width = \textwidth]{/Interplanetary/GivenOrbits_b.png}
-\caption{Given orbits zoom}
+\caption{Given orbits close-up}
 \end{figure}
 
-The design process is composed of  different consecutive steps:\\
+The design process requires the following consecutive steps:\\
 \begin{enumerate}
 \item Define the time windows for possible transfer phases (departure, gravity assist and arrival);
 \item Set known parameters and compute the orbits of the three planets of interest;
@@ -169,21 +170,21 @@ The design process is composed of  different consecutive steps:\\
 
 \subsection{Method of patched conics}
 The movement of a body inside the interplanetary space cannot be described by the two-body problem since the body itself is subject to the influence of different celestial bodies at once.
-In order to study such movement, an approximation is introduced with the method of the patched conics. With this approximation, the influence of a planet or a gas giant is limited to a sphere named Sphere of Influence (SOI from now on) which radius is calculate using the following equation:
+In order to study such movement, an approximation is introduced with the method of the patched conics. With this approximation, the influence of a celestial body is limited to a sphere named Sphere of Influence (SOI from now on) which radius is calculated using the following equation:
 
 \begin{equation*}
     R_{SOI} = R_{CB}\left(\frac{m_{CB}}{m_{\astrosun}}\right)^{\frac{2}{5}}
 \end{equation*}
 
 Where $R_{CB}$ is the distance between the celestial body and the sun, $m_{CB}$ is the mass of the central body and $m_{\astrosun}$ is the mass of the sun.\\ 
-If the body is outside any planet’s or gas giant’s SOI, then it is considered to be subject only to the Sun’s gravity attraction.\\
+If the body is outside any celestial body’s SOI, then it is considered to be subject only to the Sun’s gravity attraction.\\
 
 \begin{figure}[H]
 \includegraphics[width = \textwidth]{patched_conics.jpg}
 \caption{Patched conics}
 \end{figure}
 
-In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby. Therefore, the cost of the mission is only composed of: powered flyby, transfer trajectory insertion and planetary rendezvous burn.
+In this report, the spacecraft is considered to be already outside of Neptune’s SOI at departure and it does not enter Mercury’s SOI at arrival. The spacecraft only enters Venus’ SOI during the flyby. Therefore, the cost of the mission is only due to the following burns: powered flyby, transfer trajectory insertion and planetary rendezvous burn.
 
 \section{Mission analysis}
 
@@ -191,7 +192,7 @@ In this report, the spacecraft is considered to be already outside of Neptune’
 \subsubsection{Time windows}
 The Lambert’s problem solution is a section of an elliptical orbit. Furthermore, the minimum time needed to complete a Lambert transfer is the time required to run across an elliptical orbit with eccentricity $e\rightarrow1$, which therefore is a parabola.
 
-Therefore, given the parabolic times of flight from Neptune to Venus and from Venus to Mercury, it is possible to define the earliest possible date of flyby and arrival starting from the departure date. In particular the earliest possible flyby  and arrival dates can be defined as follows:
+Consequently, given the parabolic times of flight from Neptune to Venus and from Venus to Mercury, it is possible to define the earliest possible date of flyby and arrival starting from the departure date. In particular the earliest possible flyby  and arrival dates can be defined as follows:
 
 \begin{equation*}
     Fly_{min}=Dep_{min}+ ToF_{NV}
@@ -199,6 +200,10 @@ Therefore, given the parabolic times of flight from Neptune to Venus and from Ve
 \begin{equation*}
     Arr_{min}=Fly_{min} + ToF_{VM}
 \end{equation*}
+
+Where $ToF_{ij}$ is the parabolic time of flight between the planets i and j.
+Similarly, given the latest arrival date, it is possible to define the latest flyby and departure dates:
+
 \begin{equation*}
     Fly_{max}=Arr_{max}- ToF_{VM}
 \end{equation*}
@@ -206,17 +211,13 @@ Therefore, given the parabolic times of flight from Neptune to Venus and from Ve
     Dep_{max}=Fly_{max} - ToF_{NV}
 \end{equation*}
 
-Where $ToF_{ij}$ is the parabolic time of flight between the planets i and j.
-Similarly, given the latest arrival date it is possible to define the latest flyby and departure dates:
-
 \begin{figure}[H]
 \centering
 \includegraphics[width = \textwidth]{time_windows.jpg}
 \caption{time windows}
 \end{figure}
 
-Figure 3 – time windows\\
-Said dates are computed using the timeWindows script and they are:
+Said dates are:
 
 \begin{table}[H]
 \centering
@@ -230,11 +231,11 @@ $Fly_{max}$ & 23-01-2071 \\ \hline
 \end{table}
 
 \subsubsection{Additional constraints considered}
-One additional constraint that was to be considered is the minimum altitude of the perigee point for the planetocentric hyperbola at Venus flyby. We chose this as 300 km, giving us a minimum radius of pericenter of 6351.8 km. For the MATLAB fmincon optimization function this was set using an additional constraint function and also time constraints based on the parabolic time of flights were set using the inequality matrices and simple checks in the coarse grid search.
+One additional constraint that was to be considered is the minimum altitude of the pericentre for the planetocentric hyperbola at Venus flyby. We chose this as 300 km, giving us a minimum radius of pericentre of 6351.8 km. For the MATLAB \textit{fmincon} optimisation function this was set using an additional constraint function and also time constraints based on the parabolic time of flights were set using the inequality matrices and simple checks in the coarse grid search.
 
 \subsubsection{Transfer options exploration, analysis and comparison}
 For the selection of an optimum transfer we employed different strategies together.
-To analyze the solutions we built an objective function giving us the $\Delta V$ needed for the transfer given the \emph{arrival}, \emph{gravity assist} and \emph{departure} dates inserted to the function. The function computes the two arcs connecting planets at departure and flyby and the flyby planet to the arrival planet. The outputs consist of the total $\Delta V$ required, then the $\Delta V$'s for the separate legs and the informations for each transfer arc as an object with various fields useful for the rest of the analysis and plotting.
+To analyse the solutions we built an objective function giving us the $\Delta V$ needed for the transfer given the \emph{arrival}, \emph{gravity assist} and \emph{departure}. The function computes the two arcs connecting planets at departure and flyby and the flyby planet to the arrival planet. The outputs consist of the total $\Delta V$ required, then the $\Delta V$'s for the separate legs and the information for each transfer arc as an object with various fields useful for the rest of the analysis and plotting.
 
 \lstset{style=mystyle}
 \begin{lstlisting}[frame=single,caption=GAtransfer objective function structure]  
@@ -248,41 +249,41 @@ output total DV
 The first step is a coarse grid search using three nested for loops:\\
 
 \lstset{style=mystyle}
-\lstinputlisting[language=Matlab,caption=coarse grid search,linerange={85-108}]{InterplanetaryMission_group_33.m}
+\lstinputlisting[language=MATLAB,caption=coarse grid search,linerange={85-108}]{InterplanetaryMission_group_33.m}
 
-For these loops we employed a parfor outer loop to take advantage of the parallel processing capabilities of MATLAB, using all 4 cpu cores. This allowed us to speed up the grid search substantially, now taking only 500s with a size of $2.7e6  $ elements.
+For these loops we employed a \textit{parfor} outer loop to take advantage of the parallel processing capabilities of MATLAB, using all the available CPU cores. This allowed us to speed up the grid search substantially, now taking only 247s with a size of $2.7e6  $ elements.
 
 \paragraph{fmincon refinement}
-The objective function GAtransfer can also be used for the fmincon MATLAB optimization function, which finds the minimum for a constrained nonlinear function using a gradient-based optimizer. This function takes as initial guess the minimum point found from the coarse grid search as a vector of 3 mjd2000 dates, the linear constraint on the windows with two $\vec{ub}$ and $\vec{lb}$ vectors, the time of flight constraints with the $\vec{A}$ and $\vec{b}$ inequality matrices and the \emph{nonlinear constraint} on the minimum pericenter radius of the hyperbola as a function flyby\_CONSTR\\
+The objective function \textit{GAtransfer} can also be used for the \textit{fmincon} MATLAB optimisation function, which finds the minimum for a constrained nonlinear function using a gradient-based optimiser. This function takes as initial guess the minimum point found from the coarse grid search as a vector of 3 mjd2000 dates, the linear constraint on the windows with two $\vec{ub}$ and $\vec{lb}$ vectors, the time of flight constraints with the $\vec{A}$ and $\vec{b}$ inequality matrices and the \emph{nonlinear constraint} on the minimum pericentre radius of the hyperbola as a function flyby\_CONSTR\\
 \paragraph{Other strategies explored}
 
-We also explored using the \emph{genetic algorithm} ("ga" MATLAB function) to find an initial guess to then refine further using fmincon, making use of the parallel computing toolbox to us all the 4 CPU cores of our CPU simultaneously; however due to heuristic algorithm this gave us worse and often inconsistent results between successisve runs of the program.
+We also explored using the \emph{genetic algorithm} ("\textit{ga}" MATLAB function) to find an initial guess to then refine further using \textit{fmincon}, making use of the parallel computing toolbox to us all the cores of our CPU simultaneously; however due to the heuristic algorithm this process gave us worse and often inconsistent results between consecutive runs of the program.
 
 \subsubsection{Selection of the final solution}
-The final solution was selected as the one given from the coarse grid search plus the fmincon refinement as this gave us a lower total $\Delta V$. By narrowing the windows we also found other shorter transfers but with an higher total $\Delta V$ so we decided to discard them.
+The final solution was selected as the one given from the coarse grid search plus the \textit{fmincon} refinement as this gave us a lower total $\Delta V$. By narrowing the windows we also found other shorter transfers but with a higher total $\Delta V$ required, so we decided to discard them.
 
 \subsection{Final solution}
 
 \subsubsection{Heliocentric trajectory}
-The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s SOI; the second and third one are inside Venus’ SOI (and are analyzed in a later paragraph). 
-The Transfer strategy is completed between the times 02:42:52 on February 16th 2033 and 19:54:49 on July 10th 2070. The powered flyby is performed at 13:36:07 on September 30th 2064.\\
+The final transfer strategy is composed of two arcs, which connect inside Venus’ SOI.
+The transfer strategy is completed between the times 02:42:52 on  16 February 2033 and 19:54:49 on 10 July 2070. The flyby burn is performed at 13:36:07 on 30 September 2064.\\
 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width =\textwidth]{/Interplanetary/complete_strategy.png}
+\includegraphics[width =0.8\textwidth]{/Interplanetary/complete_strategy.png}
 \caption{Complete strategy}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \begin{tabular}{ccc}
-\subfloat{\includegraphics[width =0.9\textwidth]{/Interplanetary/complete_strategy_b.png}} \\
+\subfloat{\includegraphics[width =\textwidth]{/Interplanetary/complete_strategy_b.png}} \\
 \end{tabular}
 \caption{Zoom of complete strategy}
 \end{figure}
 
-The first arc connects Neptune and Venus orbits. It is characterised by the following data:
+The first arc connects Neptune's and Venus' orbits. It is characterised by the following data:
 
 \begin{table}[H]
 \centering
@@ -295,7 +296,7 @@ The first arc connects Neptune and Venus orbits. It is characterised by the foll
 }
 \end{table}
 
-The initial position is characterised by a true anomaly (f) of 179.27°. In Cartesian coordinates the initial point is identified by the following data:
+The initial position is characterised by a true anomaly (f) of 179.27°. In Cartesian coordinates, the initial point is identified by the following data:
 
 \begin{table}[H]
 \centering
@@ -311,7 +312,7 @@ The initial position is characterised by a true anomaly (f) of 179.27°. In Cart
 \end{table}
 
 The initial position’s distance from the Sun is 29.8789AU and the velocity at the initial point is 1.03 km/s.
-The final position is characterized by a true anomaly (f) of 74.92°. In Cartesian coordinates the final point is identified by the following data:
+The final position is characterised by a true anomaly (f) of 74.92°. In Cartesian coordinates, the final point is identified by the following data:
 
 \begin{table}[H]
 \centering
@@ -326,7 +327,7 @@ The final position is characterized by a true anomaly (f) of 74.92°. In Cartesi
 }
 \end{table}
 
-The final position’s distance from the Sun is 0.7270AU and the velocity at the initial point is 48.81km/s.
+The final position’s distance from the Sun is 0.7270AU and the velocity at the final point is 48.81km/s.
 
 \begin{figure}[H]
 \centering
@@ -347,8 +348,7 @@ The second arc goes from Venus to Mercury. It is characterised by the following 
 }
 \end{table}
 
-The initial position is characterised by a true anomaly (f) of 85.98°. In Cartesian coordinates the initial point is identified by the following data:
-the following data:
+The initial position is characterised by a true anomaly (f) of 85.98°. In Cartesian coordinates, the initial point is identified by the following data:
 
 \begin{table}[H]
 \centering
@@ -364,8 +364,7 @@ the following data:
 \end{table}
 
 The initial position’s distance from the Sun is 0.7270AU and the velocity at the initial point is 46.55km/s.
-The final position is characterized by a true anomaly (f) of 19.46°. In Cartesian coordinates the initial point is identified by the following data:
-the following data:
+The final position is characterised by a true anomaly (f) of 19.46°. In Cartesian coordinates the final point is identified by the following data:
 
 \begin{table}[H]
 \centering
@@ -379,7 +378,7 @@ the following data:
 \end{tabular}%
 }
 \end{table}
-The final position’s distance from the Sun is 0.4232AU and the velocity at the initial point is 62.60 km/s.
+The final position’s distance from the Sun is 0.4232AU and the velocity at the final point is 62.60 km/s.
 
 \begin{figure}[H]
 \centering
@@ -390,28 +389,27 @@ The final position’s distance from the Sun is 0.4232AU and the velocity at the
 
 \subsubsection{Powered gravity assist}
 
-Powered gravity assist
 Venus’ SOI radius is calculated to be $6.1935\cdot10^{5}$ km (0.0041AU).
 The approximation of stationary central body is introduced: while the spacecraft is inside Venus’ SOI , the planet itself is considered fixed at the position it has at the moment of the flyby burn.
-The probe’s trajectory inside Venus’ SOI is composed of two semi-hyperbolas connected at their perigee where the flyby burn is performed. Those hyperbolas are defined by their escape velocities which are:
+The probe’s trajectory inside Venus’ SOI is composed of two arcs of two hyperbolas connected at their pericentre where the flyby burn is performed. Those hyperbolas are defined by their escape velocities which are:
 
 \begin{table}[H]
 \centering
-\resizebox{0.6\textwidth}{!}{%
-\begin{tabular}{|c|c|c|c|}
+\resizebox{0.75\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-                             & \textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
-\textbf{$V_{\infty}^{^{-}}$} & -0.906                & -30.687               & 0.749                 \\ \hline
-\textbf{$V_{\infty}^{^{+}}$} & -3.705                & -30.439               & -0.752                \\ \hline
+                             & \textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} & \textbf{$\parallel$v$\parallel$ [km/s]} \\ \hline
+\textbf{$v_{\infty}^{^{-}}$} & 5.42                  & -28.89                & 0.27                  & 29.40                                  \\ \hline
+\textbf{$v_{\infty}^{^{+}}$} & 2.29                  & -29.30                & -0.61                 & 29.40                                  \\ \hline
 \end{tabular}%
 }
 \end{table}
 
-The incoming hyperbola is characterized by the following data:
+The incoming hyperbola is characterised by the following data:
 
 \begin{table}[H]
 \centering
-\resizebox{\textwidth}{!}{%
+\resizebox{0.75\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 \textbf{a [km]}         & \textbf{e [-]}       & \textbf{$\delta$ [°]}      & \textbf{$\Delta$ [km]}    & \textbf{v$_p$ [km/s]}      & \textbf{$\theta_{\infty}$ [°]}       & \textbf{$\beta$ [°]}       \\ \hline
@@ -420,12 +418,11 @@ The incoming hyperbola is characterized by the following data:
 }
 \end{table}
 
-The outgoing hyperbola is characterized by the following data:
-the following data:
+The outgoing hyperbola is characterised by the following data:
 
 \begin{table}[H]
 \centering
-\resizebox{\textwidth}{!}{%
+\resizebox{0.75\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 \textbf{a [km]} & \textbf{e [-]} & \textbf{$\delta$ [°]} & \textbf{$\Delta$ [km]} & \textbf{v$_p$ [km/s]} & \textbf{$\theta_{\infty}$ [°]} & \textbf{$\beta$ [°]} \\ \hline
@@ -434,36 +431,52 @@ the following data:
 }
 \end{table}
 
-As \textbf{$\Delta$} and the hyperbola's perigee velocity are the same in before and after the burn, the resulting flyby manoeuvre cost is trifling.
-The spacecraft passes at a minimum distance of 6300 km from Venus’ centre.
+As \textbf{$\Delta$}s and the hyperbola's pericentre velocities are almost the same in before and after the burn, the resulting flyby manoeuvre cost is trifling.
+The spacecraft passes at a minimum distance of 6352 km from Venus’ centre.
 
 \begin{figure}[H]
 \centering
-\epsfig{file= Flyby.eps, width=\textwidth}
+\epsfig{file= Flyby.eps, width=0.8\textwidth}
     \caption{Venus Flyby}
 \end{figure}
 
 \subsubsection{Cost of the mission}
 
 The total cost of the mission is defined by adding the cost of three separate burns. 
-The first one is the one needed to exit Neptune’s orbit and initiate the transfer. The cost of this burn is computed by determining the difference between Neptune’s velocity vector at departure date and the transfer initial velocity vector.
+The first one is the one needed to exit Neptune’s orbit and initiate the transfer. The cost of this burn is computed by determining the norm of the difference between Neptune’s velocity vector at departure date and the transfer initial velocity vector.
 \begin{equation*}
-    \Delta V_1 = V_T^1 - V_{N}\mid_{DEP}
+    \Delta V_1 = \parallel\Vec{V_T^1} - \vec{V_N}\parallel_{@DEP}
 \end{equation*}
-The cost of the first manoeuvre is the module of . In particular, the first burn requires 4.54 km/s to be completed.
-The second burn is executed at flyby. Since the difference in potential energy between the Venus and Neptune’s orbits is very high, the spacecraft reaches Venus with high kinetic energy. Therefore, the second manoeuvre represents only the $0.00016\%$ of the transfer total cost. Specifically, the flyby manoeuvre requires 0.00004 km/s.
-The final burn is performed at the end of the transfer trajectory in order to rendezvous with Mercury. The cost of this burn is represented by the difference between Mercury’s velocity vector evaluated on the arrival date and the velocity vector at the end of the transfer.
+
+In particular, the first burn requires 4.54 km/s to be completed.
+The second burn is executed at flyby. Since the difference in potential energy between the Venus' and Neptune’s orbits is very high, the spacecraft reaches Venus with high kinetic energy. Therefore, the second manoeuvre represents only the $0.00016\%$ of the total transfer cost. Specifically, the flyby manoeuvre requires 0.00004 km/s. Consequently, the flyby can be considered to be unpowered.
+The final burn is performed at the end of the transfer trajectory in order to rendezvous with Mercury. The cost of this burn is represented by the norm of the difference between Mercury’s velocity vector evaluated on the arrival date and the velocity vector at the end of the transfer.
 \begin{equation*}
-    \Delta V_1 = V_{M}\mid_{ARR}- V_T^2
+    \Delta V_2 = \parallel\Vec{V_T^2} - \vec{V_M}\parallel_{@ARR}
 \end{equation*}
-The cost of the last burn is 19.45 km/s.
+
+
+\begin{table}[H]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
+11.12               & -41.92              & -4.40              \\ \hline
+\end{tabular}%
+}
+\end{table}
+The cost of the last burn is 19.43 km/s.
+From the flyby we get a very high amount of "free" $\Delta V$, as the $\Delta v_{GA}$ given by the spacecraft at perigee is just 0.0012\% of the $\Delta V_{flyby} = 3.2801 km/s$ change in heliocentric velocity.
+It can be observed that the cost of the last burn is higher than the previous two. The reason for this is that Mercury's orbit is characterised by a higher inclination than Venus' and the final burn is responsible for completing the change of plane. Such fact can be observed by comparing Mercury's velocity vector at arrival (see table above) and the second arc final position velocity vector.
+
 The total cost of the mission is 23.97 km/s.
 
 \chapter{Assignment 2: Planetary Explorer Mission}
 
 \section{Mission requirements}
 In this chapter we are going to explain how we have designed a planetary explorer
-mission to perform Earth observation: we were in fact required to analyse the Earth-centred orbit characterised by the values in the table below and estimate its ground track, studying the effects of the assigned orbit perturbations by integrating both Gauß’s planetary equations and Cartesian equations and subsequently comparing the results of the two methods. After the characterisation of the ground track, we propose a modification of the orbit aimed to get a ground track which repeats itself once a sidereal day.\\
+mission to perform Earth observation: we were in fact required to analyse the Earth-centred orbit characterised by the values in the table below and estimate its ground tracks, studying the effects of the assigned orbit perturbations by integrating both Gauß’s planetary equations and Cartesian equations and subsequently comparing the results of the two methods. After the characterisation of the ground tracks, we propose a modification of the orbit aimed to get a ground track which repeats itself once per sidereal day.\\
 We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity, a RAAN and an initial true anomaly of 0 degrees.
 
 \begin{table}[H]
@@ -501,7 +514,7 @@ Due to the fact that even at the perigee the atmospheric drag is negligible, thi
 \section{Mission analysis outputs}
 
 \subsection{Ground track}
-% GT considering only J2 as perturbation and GT considering the assigned perturbation
+
 \begin{figure}[H]
 \centering
 \epsfig{file=oneperiod.eps, width=1\textwidth}
@@ -533,14 +546,14 @@ Due to the fact that even at the perigee the atmospheric drag is negligible, thi
 \caption{repeating GT of the unpert. 2BP and of the 2BP pert. by J2, close-up}
 \end{figure}
 
-To modify the semi-major axis in order to obtain a geosynchronous orbit, for the unperturbed case we simply calculated the semi-major axis which corresponds to a period of a sidereal day, whereas when taking into account the second zonal harmonic perturbation we included the modification of the nodal periods of satellite and Earth due to the Secular effects of J2: the regression of the nodes in the short term is therefore visible when comparing the ground tracks.
+To modify the semi-major axis in order to obtain a geosynchronous orbit, for the unperturbed case, we simply calculated the semi-major axis which corresponds to a period of a sidereal day. Whereas, when taking into account the second zonal harmonic perturbation, we included the modification of the nodal periods of satellite and Earth due to the Secular effects of J2: the regression of the nodes in the short term is therefore visible when comparing the ground tracks.
 In the first case we obtained a semi-major axis of 42166.2 km, while in the second one we got $a = 42163.6$ km
 
 \subsection{Orbit Perturbations}
 In our model we included perturbations due to two effects:
 \begin{itemize}
     \item \textbf{Second Zonal Harmonic \emph{J2}} \par Models the Earth Oblateness using the spherical geopotentials model, truncated to the second term.
-    \item \textbf{Solar Radiation Pressure \emph{SRP}} \par A force given by the impact of momentum-carrying photons on the surfaces of the spacecraft. For this perturbation we have written a function that, based on the initial date gets the position vector of the Earth from the ephemerides function and uses it to calculate the direction of the disturbing acceleration (given the large difference in scale we approximated the position vector of the spacecraft with respect to the Sun with the heliocentric position vector of the Earth) . A simple algorithm to check for the eclipse condition using the position vector of the spacecraft found in \cite{SRP_Curtis} has been implemented.
+    \item \textbf{Solar Radiation Pressure \emph{SRP}} \par A force given by the impact of momentum-carrying photons on the surfaces of the spacecraft. For this perturbation we have written a function that, based on the initial date, gets the position vector of the Earth from the ephemerides function and uses it to calculate the direction of the disturbing acceleration. Given the large difference in scale we approximated the position vector of the spacecraft with respect to the Sun with the heliocentric position vector of the Earth. A simple algorithm to check for the eclipse condition using the position vector of the spacecraft found in \cite{SRP_Curtis} has been implemented.
     \begin{equation}
         \vec{a_{SRP}} = -P_{SR@1AU}\frac{AU^2}{||\vec{r}_{sc-Sun}||^3}c_R\frac{A_{Sun}}{m}\vec{r}_{sc-Sun}
     \end{equation}
@@ -553,11 +566,9 @@ These forces give an acceleration to the spacecraft so that the total accelerati
 
 \subsection{Orbit Propagation}
 \subsubsection{Methods}
-% In Cartesian coordinates and Keplerian elements through Gauss’ planetary equations,
-%comparison of the propagation methods in terms of accuracy, computational time etc.
 To propagate the orbit we used two different methods:
 \begin{itemize}
-    \item \textbf{Gauss Planetary Equations}
+    \item \textbf{Gauß Planetary Equations}
     \par
     \begin{align*}
         \frac{da}{dt}&=\frac{2a^2}{h}\Big(e\sin f \: a_r +\frac{p}{r}a_s\Big)\\
@@ -570,13 +581,14 @@ To propagate the orbit we used two different methods:
 
     \par
     We numerically integrate these equations with the ode113 solver, by using them to set the derivatives of the state.
-    The reference frame for this equations is the RSW frame so $a_r, a_s, a_w$ are respectively the  radial, transversal and out-of-plane components. \cite{RSW_Curtis} \cite{RSW_Vallado} \cite{RSW_Battin}
+    The reference frame for this equations is the RSW frame so $a_r, a_s, a_w$ are respectively the  radial, transversal and out-of-plane components.  \cite{RSW_Curtis} \cite{RSW_Vallado} \cite{RSW_Battin}
     
-    \item \textbf{Numeric integration of cartesian equations}
+    \item \textbf{Numerical integration of Cartesian equations}
     This method consists in directly integrating the Cartesian equations of motion
     \begin{equation}
         \vec{\ddot{r}} = - \frac{\mu_{\oplus}}{r^3}\vec{r} + \sum{a_{p}}
     \end{equation}
+    where $a_{p}$ is the acceleration of each perturbation.
     
 \end{itemize}
 
@@ -585,11 +597,11 @@ To propagate the orbit we used two different methods:
 \begin{figure}[H]
 \centering
 \epsfig{file= Perturbations/error.eps, width=\textwidth}
-    \caption{error between Gaussian and Cartesian propagation methods (log scale)}
+    \caption{error between Gauss and Cartesian propagation methods (log scale)}
 \end{figure}
 
 \par
-There are numerical error introducing differences between the two methods, but the error only grows up to an order between $10^{-10}$ and $10^{-8}$ for a propagation of 1200 days, except for the true anomaly which grows to a still small error of $10^{-3}$.
+There are numerical errors introducing differences between the two methods, but the error only grows up to an order between $10^{-10}$ and $10^{-8}$ for a propagation of 1200 days, except for the true anomaly which grows to a still small error of $10^{-3}$.
 
 \subsection{History of the Keplerian elements}
 % plot the history of every keplerian element
@@ -597,12 +609,12 @@ The Keplerian elements are plotted here for 1200 days from 2021-01-01
 \begin{figure}[H]
 \centering
 \begin{tabular}{ccc}
-\subfloat[semi-major axis]{\includegraphics[width = 3in]{Perturbations/Evolution/a.png}} &
-\subfloat[eccentricity]{\includegraphics[width = 3in]{Perturbations/Evolution/e.png}} \\
-\subfloat[inclination]{\includegraphics[width = 3in]{Perturbations/Evolution/i.png}} &
-\subfloat[right ascension of ascending node]{\includegraphics[width = 3in]{Perturbations/Evolution/RAAN.png}}\\
-\subfloat[perigee anomaly]{\includegraphics[width = 3in]{Perturbations/Evolution/omega.png}} &
-\subfloat[true anomaly]{\includegraphics[width = 3in]{Perturbations/Evolution/f.png}} 
+\subfloat[semi-major axis]{\includegraphics[width = 2.5in]{Perturbations/Evolution/a.png}} &
+\subfloat[eccentricity]{\includegraphics[width = 2.5in]{Perturbations/Evolution/e.png}} \\
+\subfloat[inclination]{\includegraphics[width = 2.5in]{Perturbations/Evolution/i.png}} &
+\subfloat[right ascension of ascending node]{\includegraphics[width = 2.5in]{Perturbations/Evolution/RAAN.png}}\\
+\subfloat[perigee anomaly]{\includegraphics[width = 2.5in]{Perturbations/Evolution/omega.png}} &
+\subfloat[true anomaly]{\includegraphics[width = 2.5in]{Perturbations/Evolution/f.png}} 
 \end{tabular}
 \caption{Evolution of keplerian elements}
 \end{figure}
@@ -610,26 +622,25 @@ The Keplerian elements are plotted here for 1200 days from 2021-01-01
 \subsection{Orbit evolution representation}
 
 \subsection{HF filtering}
-%Maybe we can do it when we plot the history of the Keplerian elements
-For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighboring ones with a cutoff period of $3T_{orbit}$.
+For the filtering we have used the simple \emph{movmean} function integrated in MATLAB which computes the average at each time instant between the current point and the neighbouring ones with a cutoff period of $3T_{orbit}$.
 
-\par We can see in the \emph{secular evolution} that there is a superposition of effects from the J2 perturbation and the SRP:
+\par We can see in the \emph{secular evolution} that there is a concurrency of effects from the J2 perturbation and the SRP:
 \begin{itemize}
     \item \emph{$a$} : there is a slight secular decrease in the semi-major axis due to the effect of the SRP 
     \item \emph{$\Omega$} : there is a \emph{nodal regression} due to the inclination $i$ being less than $90\degree$ for the J2 effect
     \item  \emph{$\omega$} : there is a negative \emph{perigee precession} for the J2 effect due to the inclination $i\;> 63.4\degree$ giving a so-called \emph{"Hula-hooping effect"}
-    \item \emph{$e$} : there are periodic oscillations with a secular increase caused by ovalization of the orbit by the SRP
+    \item \emph{$e$} : there are periodic oscillations with a secular increase caused by ovalisation of the orbit by the SRP
 \end{itemize}
 
 \subsection{Comparison with real data}
 
 \subsubsection{Satellite selection}
-We searched for a satellite in the same orbital region on celestrack.org website and we found a satellite with the same inclination as ours. 
+We searched for a satellite in the same orbital region on \url{celestrack.org} and we found a satellite with the same inclination as ours. 
 The satellite is NASA’s Global Geospace Science (GSS) Polar satellite.
-This satellite was operative from 24th of February 1996 to 28th of April 2008.
+This satellite was operative from 24 February 1996 to 28 April 2008.
 
 \subsubsection{Comparison with our model}
-To get a significant time span, we resembled operative years from second of January 2000 to first of August 2002 in our model, a propagation of 1035 days with the following initial parameters\cite{POLAR}:
+To get a significant time span, we resembled operative years from 2 January 2000 to 1 November 2002 in our model, a propagation of 1035 days with the following initial parameters\cite{POLAR}:
 
 \begin{table}[H]
 \centering
@@ -643,7 +654,7 @@ To get a significant time span, we resembled operative years from second of Janu
 \end{table}
 
 
-After obtaining the TLEs from celestrack.org, we entered the ephemerides obtained from JPL Horizon website in a text file and loaded it in MATLAB. After extracting the Keplerian elements from the text file, we plotted them  and compared them with Keplerian elements obtained from our models: 
+After obtaining the TLEs from celestrack.org, we entered them in the JPL Horizon \cite{NASA} SGP4 propagator on its website in a text file and loaded it in MATLAB. After extracting the Keplerian elements from the text file, we plotted and compared them with Keplerian elements obtained from our models: 
 
 \begin{figure}[H]
 \centering
@@ -680,10 +691,11 @@ Curtis, H.D.
 Butterworth-Heinemann , 2019. Chapter 10.9
 
 \bibitem{POLAR} 
-Eoportal website,
-\url{https://directory.eoportal.org/web/eoportal/satellite-missions/p/polar}
+Eoportal website, \url{https://directory.eoportal.org/web/eoportal/satellite-missions/p/polar}
 
-
+\bibitem{NASA} 
+NASA Horizons,
+\url{https://ssd.jpl.nasa.gov/horizons.cgi#top}
 
 \end{thebibliography}
 
