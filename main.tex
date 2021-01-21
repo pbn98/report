@@ -16,7 +16,7 @@
 \usepackage{wasysym}
 \usepackage{gensymb} 
 \usepackage{subfig}
-
+%\psdraft
 \makenomenclature
 \usepackage{marginnote}
 
@@ -75,6 +75,7 @@
 }
 
 \graphicspath{ {images/} }
+
 
 \title{Orbital Mechanics Project}
 
@@ -146,11 +147,15 @@ Master of Science in\\ Space Engineering \\
 In this chapter, the aim is to design an interplanetary trajectory from Neptune to Mercury with a flyby of Venus. The mission is to be completed between the dates February 1st 2031 and February 1st 2071.\\
 
 \begin{figure}[H]
-\begin{tabular}{ccc}
-\subfloat{\includegraphics[width = 2.4in]{Given_orbits_a.eps}} &
-\subfloat{\includegraphics[width = 2.4in]{Given_orbits_b.eps}} \\
-\end{tabular}
+\centering
+\includegraphics[width = \textwidth]{/Interplanetary/GivenOrbits.png}
 \caption{Given orbits}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width = \textwidth]{/Interplanetary/GivenOrbits_b.png}
+\caption{Given orbits zoom}
 \end{figure}
 
 The design process is composed of  different consecutive steps:\\
@@ -262,12 +267,19 @@ The final solution was selected as the one given from the coarse grid search plu
 The final transfer strategy is composed of four arcs: the first and the last one lie inside the Sun’s SOI; the second and third one are inside Venus’ SOI (and are analyzed in a later paragraph). 
 The Transfer strategy is completed between the times 02:42:52 on February 16th 2033 and 19:54:49 on July 10th 2070. The powered flyby is performed at 13:36:07 on September 30th 2064.\\
 
+
 \begin{figure}[H]
-\begin{tabular}{ccc}
-\subfloat{\includegraphics[width = 2.4in]{Complete_strategy_a.eps}} &
-\subfloat{\includegraphics[width = 2.4in]{Complete_strategy_b.eps}} \\
-\end{tabular}
+\centering
+\includegraphics[width =\textwidth]{/Interplanetary/complete_strategy.png}
 \caption{Complete strategy}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{tabular}{ccc}
+\subfloat{\includegraphics[width =0.9\textwidth]{/Interplanetary/complete_strategy_b.png}} \\
+\end{tabular}
+\caption{Zoom of complete strategy}
 \end{figure}
 
 The first arc connects Neptune and Venus orbits. It is characterised by the following data:
@@ -287,7 +299,7 @@ The initial position is characterised by a true anomaly (f) of 179.27°. In Cart
 
 \begin{table}[H]
 \centering
-\resizebox{0.75\textwidth}{!}{%
+\resizebox{0.6\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
@@ -303,7 +315,7 @@ The final position is characterized by a true anomaly (f) of 74.92°. In Cartesi
 
 \begin{table}[H]
 \centering
-\resizebox{0.7\textwidth}{!}{%
+\resizebox{0.6\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
@@ -318,11 +330,11 @@ The final position’s distance from the Sun is 0.7270AU and the velocity at the
 
 \begin{figure}[H]
 \centering
-\epsfig{file= First_arc.eps, width=0.7\textwidth}
-    \caption{First arc}
+\includegraphics[width =\textwidth]{/Interplanetary/first_arc}
+\caption{First arc}
 \end{figure}
 
-The second arc goes from Venus to Mercury. It is characterized by the following data:
+The second arc goes from Venus to Mercury. It is characterised by the following data:
 
 \begin{table}[H]
 \centering
@@ -335,12 +347,12 @@ The second arc goes from Venus to Mercury. It is characterized by the following 
 }
 \end{table}
 
-The initial position is characterized by a true anomaly (f) of 85.98°. In Cartesian coordinates the initial point is identified by the following data:
+The initial position is characterised by a true anomaly (f) of 85.98°. In Cartesian coordinates the initial point is identified by the following data:
 the following data:
 
 \begin{table}[H]
 \centering
-\resizebox{0.7\textwidth}{!}{%
+\resizebox{0.6\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
@@ -357,7 +369,7 @@ the following data:
 
 \begin{table}[H]
 \centering
-\resizebox{0.75\textwidth}{!}{%
+\resizebox{0.6\textwidth}{!}{%
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{R$_x$ [AU]}   & \textbf{R$_y$ [AU]}   & \textbf{R$_z$ [AU]}   \\ \hline
@@ -369,13 +381,14 @@ the following data:
 \end{table}
 The final position’s distance from the Sun is 0.4232AU and the velocity at the initial point is 62.60 km/s.
 
-\subsubsection{Powered gravity assist}
-
 \begin{figure}[H]
 \centering
-\epsfig{file= Second_arc.eps, width=0.7\textwidth}
+\epsfig{file= /Interplanetary/second_arc, width=1\textwidth}
     \caption{Second arc}
 \end{figure}
+
+
+\subsubsection{Powered gravity assist}
 
 Powered gravity assist
 Venus’ SOI radius is calculated to be $6.1935\cdot10^{5}$ km (0.0041AU).
@@ -384,7 +397,7 @@ The probe’s trajectory inside Venus’ SOI is composed of two semi-hyperbolas 
 
 \begin{table}[H]
 \centering
-\resizebox{\textwidth}{!}{%
+\resizebox{0.6\textwidth}{!}{%
 \begin{tabular}{|c|c|c|c|}
 \hline
                              & \textbf{v$_x$ [km/s]} & \textbf{v$_y$ [km/s]} & \textbf{v$_z$ [km/s]} \\ \hline
@@ -395,7 +408,6 @@ The probe’s trajectory inside Venus’ SOI is composed of two semi-hyperbolas 
 \end{table}
 
 The incoming hyperbola is characterized by the following data:
-the following data:
 
 \begin{table}[H]
 \centering
@@ -403,7 +415,7 @@ the following data:
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 \textbf{a [km]}         & \textbf{e [-]}       & \textbf{$\delta$ [°]}      & \textbf{$\Delta$ [km]}    & \textbf{v$_p$ [km/s]}      & \textbf{$\theta_{\infty}$ [°]}       & \textbf{$\beta$ [°]}       \\ \hline
--375.956 & 17.9234 & 6.3967                & 6728                   & 31.08                & 93.20                        & 86.80 \\ \hline
+-375.956 & 17.92 & 6.3967                & 6728                   & 31.08                & 93.20                        & 86.80 \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -427,7 +439,7 @@ The spacecraft passes at a minimum distance of 6300 km from Venus’ centre.
 
 \begin{figure}[H]
 \centering
-\epsfig{file= Flyby.eps, width=0.7\textwidth}
+\epsfig{file= Flyby.eps, width=\textwidth}
     \caption{Venus Flyby}
 \end{figure}
 
@@ -452,7 +464,7 @@ The total cost of the mission is 23.97 km/s.
 \section{Mission requirements}
 In this chapter we are going to explain how we have designed a planetary explorer
 mission to perform Earth observation: we were in fact required to analyse the Earth-centred orbit characterised by the values in the table below and estimate its ground track, studying the effects of the assigned orbit perturbations by integrating both Gauß’s planetary equations and Cartesian equations and subsequently comparing the results of the two methods. After the characterisation of the ground track, we propose a modification of the orbit aimed to get a ground track which repeats itself once a sidereal day.\\
-We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity, a RAAN of 0 degrees.
+We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity, a RAAN and an initial true anomaly of 0 degrees.
 
 \begin{table}[H]
 \centering
@@ -616,12 +628,12 @@ This satellite was operative from 24th of February 1996 to 28th of April 2008 wi
 \end{table}
 \subsubsection{Comparison with our model}
 
-To get a significant time span, we resembled operative years from second of January 2000 to first of August 2002 in our model. After obtaining the TLEs from celestrack.org, we entered the ephemerides obtained from JPL Horizon website in a text file and loaded it in Mat lab. After extracting the Keplerian elements from the text file, we plotted them  and compared them with Keplerian elements obtained from our model.: 
+To get a significant time span, we resembled operative years from second of January 2000 to first of August 2002 in our model. After obtaining the TLEs from celestrack.org, we entered the ephemerides obtained from JPL Horizon website in a text file and loaded it in MATLAB. After extracting the Keplerian elements from the text file, we plotted them  and compared them with Keplerian elements obtained from our models: 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{comparisonwithtles}
-%\epsfig{file=comparisonwithtles.eps , width=1\textwidth}
+%\includegraphics[width=1\textwidth]{comparisonwithtles}
+\epsfig{file=realsat.eps , width=1\textwidth}
 \caption{comparison with our model}
 \end{figure}
 
