@@ -485,6 +485,19 @@ We have chosen a periapsis anomaly of 40 degrees and, for the sake of simplicity
 
 The orbit we've been assigned, represented in the following images, is almost geosynchronous: in fact it has a period of $22h 42 min 49s$, which is very close to a sidereal day. With a perigee height of 9195.5 km and an apogee height of 59498.5 km, the orbit is very eccentric and, since its inclination is very high, it would be suitable for a communication satellite designed to service austral regions, as the satellite spends most of the time in the southern hemisphere (apogee dwell).  
 Due to the fact that even at the perigee the atmospheric drag is negligible, the assigned perturbations should be sufficient to model the orbit with a good level of accuracy.
+
+\begin{figure}[H]
+\centering
+\epsfig{file=orbitrepresentation1.eps, width=1\textwidth}
+\caption{Orbit representation}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\epsfig{file=orbitevolution1.eps, width=1\textwidth}
+\caption{Orbit evolution with J2 and SRP perturbations}
+\end{figure}
+
 \section{Mission analysis outputs}
 
 \subsection{Ground track}
@@ -584,12 +597,12 @@ The Keplerian elements are plotted here for 1200 days from 2021-01-01
 \begin{figure}[H]
 \centering
 \begin{tabular}{ccc}
-\subfloat[semi-major axis]{\includegraphics[width = 2.4in]{Perturbations/Evolution/a.png}} &
-\subfloat[eccentricity]{\includegraphics[width = 2.4in]{Perturbations/Evolution/e.png}} \\
-\subfloat[inclination]{\includegraphics[width = 2.4in]{Perturbations/Evolution/i.png}} &
-\subfloat[right ascension of ascending node]{\includegraphics[width = 2.4in]{Perturbations/Evolution/RAAN.png}}\\
-\subfloat[perigee anomaly]{\includegraphics[width = 2.4in]{Perturbations/Evolution/omega.png}} &
-\subfloat[true anomaly]{\includegraphics[width = 2.4in]{Perturbations/Evolution/f.png}} 
+\subfloat[semi-major axis]{\includegraphics[width = 3in]{Perturbations/Evolution/a.png}} &
+\subfloat[eccentricity]{\includegraphics[width = 3in]{Perturbations/Evolution/e.png}} \\
+\subfloat[inclination]{\includegraphics[width = 3in]{Perturbations/Evolution/i.png}} &
+\subfloat[right ascension of ascending node]{\includegraphics[width = 3in]{Perturbations/Evolution/RAAN.png}}\\
+\subfloat[perigee anomaly]{\includegraphics[width = 3in]{Perturbations/Evolution/omega.png}} &
+\subfloat[true anomaly]{\includegraphics[width = 3in]{Perturbations/Evolution/f.png}} 
 \end{tabular}
 \caption{Evolution of keplerian elements}
 \end{figure}
@@ -633,7 +646,7 @@ To get a significant time span, we resembled operative years from second of Janu
 \begin{figure}[H]
 \centering
 %\includegraphics[width=1\textwidth]{comparisonwithtles}
-\epsfig{file=realsat.eps , width=1\textwidth}
+\epsfig{file=realsat.eps , width=\textwidth}
 \caption{comparison with our model}
 \end{figure}
 
@@ -654,7 +667,7 @@ Battin, R,
 Astrodynamics}, AIAA Education Series, 1999. Chapter 10
 
 \bibitem{SRP_Curtis} 
-Curtis,H.D. 
+Curtis, H.D. 
 \textit{Orbital mechanics for engineering students}. 
 Butterworth-Heinemann , 2019. Chapter 10.9
 
